@@ -4,6 +4,8 @@ import { DialogTitle } from "../../ui/dialog";
 import { useForm } from "react-hook-form";
 import { usePostModel } from "@/hooks/usePostModel";
 import { Set } from "@/utils/types";
+import { useToast } from "@/components/ui/use-toast";
+import { handleError, handleSuccess } from "@/utils/helpers/mutationHandlers";
 
 const schema = yup
   .object({
@@ -26,20 +28,20 @@ function EditForm({ setOpen, editData }: FormProps) {
   } = useForm<FormData>({
     resolver: yupResolver<FormData>(schema),
   });
-
+  const { toast } = useToast();
   const updateSet = usePostModel("admin/sets/" + editData?.id, "sets", "PUT");
 
-  const handleLogin = async (data: FormData) => {
+  const handleLogin = (data: FormData) => {
     data.id = editData?.id;
-    const message = await updateSet.mutateAsync(data);
-    if (message) setOpen(false);
+    updateSet.mutate(data, {
+      onSuccess: (message) => handleSuccess(message, setOpen, toast),
+      onError: (error) => handleError(error, toast),
+    });
   };
 
   return (
     <>
-      <DialogTitle className="text-center my-4 text-xl">
-        Edit set
-      </DialogTitle>
+      <DialogTitle className="text-center my-4 text-xl">Edit set</DialogTitle>
 
       <div className="mt-8">
         <form onSubmit={handleSubmit(handleLogin)}>
@@ -60,7 +62,6 @@ function EditForm({ setOpen, editData }: FormProps) {
                     {errors.name?.message}
                   </span>
                 )}
-                
               </div>
             </div>
           </div>

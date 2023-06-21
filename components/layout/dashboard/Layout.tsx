@@ -15,10 +15,12 @@ function Layout({ children }: LayoutProps) {
   const router = useRouter();
 
   useEffect(() => {
-    if (status === "unauthenticated" && user?.staff_type_id) {
+
+    if (status === "unauthenticated" || (user && !("staff_type_id" in user))) {
       router.push("/dashboard/login");
     }
-  }, [router, status, user?.staff_type_id]);
+  }, [router, status, user]);
+
   return (
     <>
       <Sidebar />

@@ -3,6 +3,8 @@ import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { usePostModel } from "@/hooks/usePostModel";
 import { DialogTitle } from "@/components/ui/dialog";
+import { useToast } from "@/components/ui/use-toast";
+import { handleError, handleSuccess } from "@/utils/helpers/mutationHandlers";
 
 const schema = yup
   .object({
@@ -25,13 +27,15 @@ function Form({ setOpen }: FormProps) {
   } = useForm<FormData>({
     resolver: yupResolver<FormData>(schema),
   });
-
+  const { toast } = useToast();
   const createType = usePostModel("admin/types", "types", "POST");
 
-  const handleLogin = async (data: FormData) => {
+  const handleLogin = (data: FormData) => {
     data.is_available = 0;
-    const message = await createType.mutateAsync(data);
-    if (message) setOpen(false);
+    createType.mutate(data, {
+      onSuccess: (message) => handleSuccess(message, setOpen, toast),
+      onError: (error) => handleError(error, toast),
+    });
   };
 
   return (

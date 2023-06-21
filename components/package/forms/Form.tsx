@@ -5,6 +5,8 @@ import { usePostModel } from "@/hooks/usePostModel";
 import { DialogTitle } from "@/components/ui/dialog";
 import { useFetchAllModel } from "@/hooks/useFetchAllModel";
 import { Type } from "@/utils/types";
+import { useToast } from "@/components/ui/use-toast";
+import { handleError, handleSuccess } from "@/utils/helpers/mutationHandlers";
 
 const schema = yup
   .object({
@@ -35,10 +37,11 @@ function Form({ setOpen }: FormProps) {
   } = useForm<FormD>({
     resolver: yupResolver<FormD>(schema),
   });
+  const { toast } = useToast();
   const createPackage = usePostModel("admin/packages", "packages", "POST");
   const { models: types } = useFetchAllModel<Type[]>("all_types", "types");
 
-  const handleLogin = async (data: FormD) => {
+  const handleLogin = (data: FormD) => {
     interface DataType {
       name: string;
       type_id: string;
@@ -51,8 +54,10 @@ function Form({ setOpen }: FormProps) {
     formData.append("type_id", String(type_id));
     formData.append("photo", photo[0] as File);
 
-    const message = await createPackage.mutateAsync(formData);
-    if (message) setOpen(false);
+    createPackage.mutate(formData, {
+      onSuccess: (message) => handleSuccess(message, setOpen, toast),
+      onError: (error) => handleError(error, toast),
+    });
   };
 
   return (

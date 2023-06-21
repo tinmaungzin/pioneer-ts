@@ -4,6 +4,8 @@ import { DialogTitle } from "../../ui/dialog";
 import { useForm } from "react-hook-form";
 import { usePostModel } from "@/hooks/usePostModel";
 import { PointItem } from "@/utils/types";
+import { useToast } from "@/components/ui/use-toast";
+import { handleError, handleSuccess } from "@/utils/helpers/mutationHandlers";
 
 const schema = yup
   .object({
@@ -32,7 +34,7 @@ function EditForm({ setOpen, editData }: FormProps) {
   } = useForm<FormData>({
     resolver: yupResolver<FormData>(schema),
   });
-
+  const { toast } = useToast();
   const updatePutPointItem = usePostModel(
     "admin/point_items/" + editData?.id,
     "point_items",
@@ -45,7 +47,7 @@ function EditForm({ setOpen, editData }: FormProps) {
     "POST"
   );
 
-  const handleLogin = async (data: FormData) => {
+  const handleLogin = (data: FormData) => {
     interface DataType {
       point: number;
       details: string;
@@ -60,12 +62,16 @@ function EditForm({ setOpen, editData }: FormProps) {
       formData.append("point", String(point));
       formData.append("photo", photo[0] as File);
 
-      const message = await updatePostPointItem.mutateAsync(formData);
-      if (message) setOpen(false);
+      updatePostPointItem.mutate(formData, {
+        onSuccess: (message) => handleSuccess(message, setOpen, toast),
+        onError: (error) => handleError(error, toast),
+      });
     } else {
       delete data["photo"];
-      const message = await updatePutPointItem.mutateAsync(data);
-      if (message) setOpen(false);
+      updatePutPointItem.mutate(data, {
+        onSuccess: (message) => handleSuccess(message, setOpen, toast),
+        onError: (error) => handleError(error, toast),
+      });
     }
   };
 

@@ -13,8 +13,7 @@ async function fetchOneModel<T>(
     headers,
   });
   const model = await res.json();
-
-  return model.data as T;
+  return model as T;
 }
 
 export function useFetchOneModel<T>(

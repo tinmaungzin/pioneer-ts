@@ -6,6 +6,8 @@ import { usePostModel } from "@/hooks/usePostModel";
 import { Set, TableSet } from "@/utils/types";
 import { useFetchAllModel } from "@/hooks/useFetchAllModel";
 import { string, object, number } from "yup";
+import { useToast } from "@/components/ui/use-toast";
+import { handleError, handleSuccess } from "@/utils/helpers/mutationHandlers";
 
 interface IField {
   name: string;
@@ -18,11 +20,9 @@ type FormProps = {
 };
 
 function EditForm({ setOpen, editData }: FormProps) {
-  console.log(editData);
   const { models: sets } = useFetchAllModel<Set[]>("admin/all_sets", "sets");
 
-  const fields: IField[] = [
-  ];
+  const fields: IField[] = [];
 
   sets?.map((set, index) => {
     fields.push({
@@ -46,10 +46,10 @@ function EditForm({ setOpen, editData }: FormProps) {
   } = useForm<FormData>({
     resolver: yupResolver<FormData>(schema),
   });
-
+  const { toast } = useToast();
   const updatePrice = usePostModel("admin/set_types", "set_types", "POST");
 
-  const handleLogin = async (data: FormData) => {
+  const handleLogin = (data: FormData) => {
     const setPrices = Object.entries(data).reduce<
       { price: number; set_id: number }[]
     >((acc, [key, value]) => {
@@ -67,13 +67,17 @@ function EditForm({ setOpen, editData }: FormProps) {
       set_price: JSON.stringify(setPrices),
       type_id: editData.type_id,
     };
-    const message = await updatePrice.mutateAsync(result);
-    if (message) setOpen(false);
+    updatePrice.mutate(result, {
+      onSuccess: (message) => handleSuccess(message, setOpen, toast),
+      onError: (error) => handleError(error, toast),
+    });
   };
 
   return (
     <>
-      <DialogTitle className="text-center my-4 text-xl">Edit prices for {editData.type_name}</DialogTitle>
+      <DialogTitle className="text-center my-4 text-xl">
+        Edit prices for {editData.type_name}
+      </DialogTitle>
 
       <div className="mt-8">
         <form onSubmit={handleSubmit(handleLogin)}>
@@ -85,7 +89,10 @@ function EditForm({ setOpen, editData }: FormProps) {
                 //   if (set_price.set_id === set.id)
                 //     currentValue = set_price.price;
                 // });
-                const currentValue = editData.set_prices.find(set_price => set_price.set_id === set.id)?.price || 0;
+                const currentValue =
+                  editData.set_prices.find(
+                    (set_price) => set_price.set_id === set.id
+                  )?.price || 0;
 
                 return (
                   <div key={index}>

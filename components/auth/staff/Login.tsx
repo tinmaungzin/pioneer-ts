@@ -44,10 +44,10 @@ function Login() {
         ...values,
         redirect: false,
       });
-      if (res?.error) {
-        setError(res.error);
+      if (res?.status === 401) {
+        setError("Incorrect email or password. Please try again!");
       } else {
-        router.push("/dashboard/admins");
+        router.push("/dashboard/loading");
       }
     } catch (error) {
       console.error("Login Error:", error);
@@ -94,6 +94,7 @@ function Login() {
                   {errors.password?.message}
                 </span>
               )}
+              {errors && <span className="text-red-500 text-xs">{error}</span>}
             </div>
           </div>
           <div

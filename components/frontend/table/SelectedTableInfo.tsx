@@ -1,10 +1,20 @@
 import { Table } from "@/utils/types";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import TableBookingForm from "./TableBookingForm";
+import { useState } from "react";
 
 type Props = {
   selectedTable: Table | undefined;
 };
 function SelectedTableInfo({ selectedTable }: Props) {
   const isAvailable = selectedTable?.booking_status == "available";
+  const [openBookingDialog, setOpenBookingDialog] = useState<boolean>(false);
+
   return (
     <>
       {selectedTable ? (
@@ -44,11 +54,24 @@ function SelectedTableInfo({ selectedTable }: Props) {
               This table is not available!
             </p>
           ) : (
-            <div className="flex justify-center">
-              <button className="block px-4 py-2 text-center text-white bg-black border border-black rounded hover:bg-transparent hover:text-black transition uppercase font-roboto font-medium relative">
-                Book Table
-              </button>
-            </div>
+            <Dialog
+              open={openBookingDialog}
+              onOpenChange={setOpenBookingDialog}
+            >
+              <DialogTrigger className="w-full flex justify-center">
+                <button className="mx-2 py-2 px-4 text-center text-white bg-black border border-black rounded-md hover:bg-transparent hover:text-black transition font-medium">
+                  Book Table
+                </button>
+              </DialogTrigger>
+              <DialogContent className="bg-white">
+                <DialogHeader>
+                  <TableBookingForm
+                    selectedTable={selectedTable}
+                    setOpen={setOpenBookingDialog}
+                  />
+                </DialogHeader>
+              </DialogContent>
+            </Dialog>
           )}
         </div>
       ) : null}

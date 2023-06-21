@@ -1,67 +1,54 @@
+import { User } from "@/utils/types";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
+import Link from "next/link";
+import SocialIcons from "./SocialIcons";
 
 function Header() {
+  const { data: session, status } = useSession();
+  const user = session?.user as User;
+  const unauthenticated =
+    status === "unauthenticated" || (user && !("user_type_id" in user));
+
   return (
     <>
-      <div className="w-screen py-4 bg-black shadow">
+      <div className=" py-4 bg-black shadow">
         <div className="px-8 md:px-20 py-4 flex justify-between items-center">
-          <div className="text-white flex flex-col items-center">
-            <i className="fa-solid fa-user text-xl lg:text-2xl"></i>
-            <p className="text-center text-sm lg:text-base">Profile</p>
-          </div>
+          {unauthenticated ? (
+            <Link href="/login">
+              <div className="text-white flex flex-col items-center">
+                <i className="fa-solid fa-right-to-bracket text-lg lg:text-2xl"></i>
+                <p className="text-center text-sm lg:text-base">Login</p>
+              </div>
+            </Link>
+          ) : (
+            <Link href="/profile">
+              <div className="text-white flex flex-col items-center">
+                <i className="fa-solid fa-user text-lg lg:text-2xl"></i>
+                <p className="text-center text-sm lg:text-base">Profile</p>
+              </div>
+            </Link>
+          )}
+
           <div>
             <div>
-              <Image
-                className="w-24 h-16 lg:w-32 lg:h-20"
-                src="/images/logo.png"
-                alt="logo"
-                width={500}
-                height={300}
-              />
+              <Link href="/">
+                <Image
+                  className="w-24 h-16 lg:w-28 lg:h-20"
+                  src="/images/logo.png"
+                  alt="logo"
+                  width={500}
+                  height={300}
+                />
+              </Link>
             </div>
           </div>
           <div className="text-white flex flex-col items-center">
-            <i className="fa-solid fa-headphones text-xl lg:text-2xl"></i>
+            <i className="fa-solid fa-headphones text-lg lg:text-2xl"></i>
             <p className="text-center text-sm lg:text-base">Hotline</p>
           </div>
         </div>
-        <div className="flex justify-center">
-          <Image
-            className="w-6 h-6 lg:w-8 lg:h-8 mx-2"
-            src="/images/icons/facebook.png"
-            alt="logo"
-            width={500}
-            height={300}
-          />
-          <Image
-            className="w-6 h-6 lg:w-8 lg:h-8 mx-2"
-            src="/images/icons/messenger.png"
-            alt="logo"
-            width={500}
-            height={300}
-          />
-          <Image
-            className="w-6 h-6 lg:w-8 lg:h-8 mx-2"
-            src="/images/icons/instagram.png"
-            alt="logo"
-            width={500}
-            height={300}
-          />
-          <Image
-            className="w-6 h-6 lg:w-8 lg:h-8 mx-2"
-            src="/images/icons/telegram.png"
-            alt="logo"
-            width={500}
-            height={300}
-          />
-          <Image
-            className="w-6 h-6 lg:w-8 lg:h-8 mx-2"
-            src="/images/icons/viber.png"
-            alt="logo"
-            width={500}
-            height={300}
-          />
-        </div>
+        <SocialIcons />
       </div>
     </>
   );

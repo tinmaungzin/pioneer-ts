@@ -29,7 +29,7 @@ export function DataTable<TData, TValue>({
   data = [],
   pageCount,
   tableHeader,
-  setCurrentPage
+  setCurrentPage,
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,

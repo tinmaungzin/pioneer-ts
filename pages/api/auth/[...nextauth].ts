@@ -6,31 +6,41 @@ import axios from "axios";
 const authOptions: AuthOptions = {
   providers: [
     CredentialsProvider({
-      name: "Admin",
+      name: "Staff",
       credentials: {
-        email: { label: "Email", type: "text" },
-        password: { label: "Password", type: "password" },
+        email: { type: "text" },
+        phone_number: { type: "text" },
+        password: { type: "password" },
       },
       async authorize(credentials: Record<string, string> | undefined) {
         if (!credentials) {
           return null;
         }
 
-        const { email, password } = credentials;
+        const { email, password, phone_number } = credentials;
+        let url = "";
+        let inputData = {};
+        if (phone_number) {
+          url = `${process.env.NEXT_PUBLIC_BACKEND_URL}login`;
+          inputData = {
+            phone_number,
+            password,
+          };
+        }
+        if (email) {
+          url = `${process.env.NEXT_PUBLIC_BACKEND_URL}auth_login`;
+          inputData = {
+            email,
+            password,
+          };
+        }
 
         try {
-          const { data } = await axios.post(
-            `${process.env.NEXT_PUBLIC_BACKEND_URL}admin/login`,
-            {
-              email,
-              password,
+          const { data } = await axios.post(url, inputData, {
+            headers: {
+              Accept: "application/json",
             },
-            {
-              headers: {
-                "Accept": "application/json",
-              },
-            }
-          );
+          });
           const user = data.data.auth_user;
           user.token = data.data.token;
           if (user) {

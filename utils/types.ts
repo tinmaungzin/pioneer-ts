@@ -12,10 +12,17 @@ export type Staff = {
 
 export type User = {
   id: number;
-  email: string;
+  email?: string;
+  phone_number?: string;
   name: string;
   staff_type_id?: number;
+  is_archived?: number;
+  is_verified?: number;
+  allowed_table?: number;
   user_type_id?: number;
+  balance?: number;
+  new_balance?: number;
+  point?: number;
   created_at: string;
   updated_at: string;
   exp?: string;
@@ -23,6 +30,7 @@ export type User = {
   jti?: string;
   sub?: string;
   token?: string;
+  rowNumber?: number;
 };
 
 export type Set = {
@@ -105,4 +113,29 @@ export type TableSet = {
   type_id: number;
   type_name: string;
   set_prices: SetPrice[];
+};
+
+export type EventTable = {
+  id: number;
+  booking_status: string;
+  event: Event;
+  event_id: number;
+  table: Table;
+  table_id: number;
+};
+
+export type Booking = {
+  id: number;
+  name?: string;
+  phone_number?: string;
+  use_balance: number;
+  user?: User;
+  user_id?: number;
+  event_table: EventTable;
+  event_table_id: number | undefined;
+  note: string;
+  photo?: string;
+  booking_status?: string;
+  price?: number;
+  rowNumber?: number;
 };

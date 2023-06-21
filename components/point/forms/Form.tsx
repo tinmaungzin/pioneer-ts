@@ -3,6 +3,8 @@ import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { usePostModel } from "@/hooks/usePostModel";
 import { DialogTitle } from "@/components/ui/dialog";
+import { useToast } from "@/components/ui/use-toast";
+import { handleError, handleSuccess } from "@/utils/helpers/mutationHandlers";
 
 const schema = yup
   .object({
@@ -36,13 +38,15 @@ function Form({ setOpen }: FormProps) {
   } = useForm<FormD>({
     resolver: yupResolver<FormD>(schema),
   });
+  const { toast } = useToast();
+
   const createPointItem = usePostModel(
     "admin/point_items",
     "point_items",
     "POST"
   );
 
-  const handleLogin = async (data: FormD) => {
+  const handleLogin =  (data: FormD) => {
     interface DataType {
       point: number;
       details: string;
@@ -55,8 +59,10 @@ function Form({ setOpen }: FormProps) {
     formData.append("point", String(point));
     formData.append("photo", photo[0] as File);
 
-    const message = await createPointItem.mutateAsync(formData);
-    if (message) setOpen(false);
+    createPointItem.mutate(formData, {
+      onSuccess: (message) => handleSuccess(message, setOpen, toast),
+      onError: (error) => handleError(error, toast),
+    });
   };
 
   return (

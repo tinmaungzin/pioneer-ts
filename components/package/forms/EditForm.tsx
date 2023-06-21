@@ -6,6 +6,8 @@ import { usePostModel } from "@/hooks/usePostModel";
 import { Package, Type } from "@/utils/types";
 import { useFetchAllModel } from "@/hooks/useFetchAllModel";
 import { useEffect } from "react";
+import { useToast } from "@/components/ui/use-toast";
+import { handleError, handleSuccess } from "@/utils/helpers/mutationHandlers";
 
 const schema = yup
   .object({
@@ -33,6 +35,7 @@ function EditForm({ setOpen, editData }: FormProps) {
   } = useForm<FormData>({
     resolver: yupResolver<FormData>(schema),
   });
+  const { toast } = useToast();
 
   const updatePutPackages = usePostModel(
     "admin/packages/" + editData?.id,
@@ -46,7 +49,7 @@ function EditForm({ setOpen, editData }: FormProps) {
   );
   const { models: types } = useFetchAllModel<Type[]>("all_types", "types");
 
-  const handleLogin = async (data: FormData) => {
+  const handleLogin = (data: FormData) => {
     interface DataType {
       name: string;
       type_id: string;
@@ -61,12 +64,16 @@ function EditForm({ setOpen, editData }: FormProps) {
       formData.append("type_id", String(type_id));
       formData.append("photo", photo[0] as File);
 
-      const message = await updatePostPackages.mutateAsync(formData);
-      if (message) setOpen(false);
+      updatePostPackages.mutate(formData, {
+        onSuccess: (message) => handleSuccess(message, setOpen, toast),
+        onError: (error) => handleError(error, toast),
+      });
     } else {
       delete data["photo"];
-      const message = await updatePutPackages.mutateAsync(data);
-      if (message) setOpen(false);
+      updatePutPackages.mutate(data, {
+        onSuccess: (message) => handleSuccess(message, setOpen, toast),
+        onError: (error) => handleError(error, toast),
+      });
     }
   };
 

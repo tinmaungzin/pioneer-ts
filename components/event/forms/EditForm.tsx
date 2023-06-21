@@ -28,7 +28,6 @@ function EditForm({ id }: EditFormProps) {
   });
   const router = useRouter();
   const {model, isLoading, isFetching, error} = useFetchOneModel("admin/events/"+id, "events")
-  console.log(model)
   const updatePutEvent = usePostModel("admin/events/" + id, "events", "PUT");
   const updatePostEvent = usePostModel(
     "admin/events/" + id,

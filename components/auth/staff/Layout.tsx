@@ -1,8 +1,7 @@
 import Image from "next/image";
-import Login from "./Login";
 import { ReactNode } from "react";
 
-function Layout({children}: {children: ReactNode}) {
+function Layout({ children }: { children: ReactNode }) {
   return (
     <>
       <section className="gradient-form h-screen bg-neutral-200 dark:bg-neutral-700 flex justify-center items-center">

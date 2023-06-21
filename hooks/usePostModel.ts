@@ -17,10 +17,23 @@ export function usePostModel<T>(url: string, name: string, method: string) {
       headers,
       body: isFormData ? data : JSON.stringify(data),
     });
-    const message = await res.json();
-    if (message.message) {
-      queryClient.invalidateQueries([name]);
+    const { message } = await res.json();
+
+    if (!res.ok) {
+      let error;
+
+      if (typeof message === "object") {
+        const errorField = Object.keys(message)[0];
+        const errorMessage = message[errorField];
+        error = new Error(errorMessage);
+      } else {
+        error = new Error(message);
+      }
+
+      throw error;
     }
-    return message.message;
+
+    queryClient.invalidateQueries([name]);
+    return message;
   });
 }

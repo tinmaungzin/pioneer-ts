@@ -11,6 +11,8 @@ import { schema } from "./formSchema";
 import { usePostModel } from "@/hooks/usePostModel";
 import DatePicker from "./DatePicker";
 import { useRouter } from "next/router";
+import { useToast } from "@/components/ui/use-toast";
+import { handleError } from "@/utils/helpers/mutationHandlers";
 
 type FormD = yup.InferType<typeof schema>;
 
@@ -26,14 +28,14 @@ function Form() {
   const createEvent = usePostModel("admin/events", "events", "POST");
   const [date, setDate] = useState<Date>();
   const [dateError, setDateError] = useState<string>("");
-
+  const { toast } = useToast();
   const { models: sets } = useFetchAllModel<Set[]>("admin/all_sets", "sets");
   const [selectedTables, setSelectedTables] = useState<(number | undefined)[]>(
     []
   );
   const [tableError, setTableError] = useState<string>();
 
-  const handleLogin = async (data: FormD) => {
+  const handleLogin = (data: FormD) => {
     setDateError("");
     setTableError("");
     if (!date) {
@@ -49,7 +51,7 @@ function Form() {
       set_id: string;
       walk_in_price: string;
       photo: any;
-      layout_photo: any
+      layout_photo: any;
     }
     const { name, set_id, walk_in_price, photo, layout_photo }: DataType = data;
 
@@ -61,8 +63,15 @@ function Form() {
     formData.append("photo", photo[0] as File);
     formData.append("layout_photo", layout_photo[0] as File);
     formData.append("tables", JSON.stringify(selectedTables));
-    const message = await createEvent.mutateAsync(formData);
-    if (message) router.push("/dashboard/events");
+    createEvent.mutate(formData, {
+      onSuccess: (message) => {
+        toast({
+          description: message,
+        });
+        router.push("/dashboard/events");
+      },
+      onError: (error) => handleError(error, toast),
+    });
   };
 
   return (

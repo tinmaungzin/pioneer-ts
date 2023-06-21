@@ -1,5 +1,5 @@
 import { columns } from "@/components/staff/columns";
-import { DataTable } from "@/components/table/data-table";
+import { DataTable } from "@/components/data-table/data-table";
 import Layout from "@/components/layout/dashboard/Layout";
 import { useFetchModel } from "@/hooks/useFetchModel";
 import { Staff } from "@/utils/types";
@@ -18,7 +18,6 @@ function AdminIndex() {
     "admins",
     currentPage
   );
-
 
   return (
     <>

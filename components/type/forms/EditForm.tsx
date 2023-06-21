@@ -4,6 +4,8 @@ import { DialogTitle } from "../../ui/dialog";
 import { useForm } from "react-hook-form";
 import { usePostModel } from "@/hooks/usePostModel";
 import { Type } from "@/utils/types";
+import { useToast } from "@/components/ui/use-toast";
+import { handleError, handleSuccess } from "@/utils/helpers/mutationHandlers";
 
 const schema = yup
   .object({
@@ -28,18 +30,20 @@ function EditForm({ setOpen, editData }: FormProps) {
   } = useForm<FormData>({
     resolver: yupResolver<FormData>(schema),
   });
-
+  const { toast } = useToast();
   const updateType = usePostModel(
     "admin/types/" + editData?.id,
     "types",
     "PUT"
   );
 
-  const handleLogin = async (data: FormData) => {
+  const handleLogin = (data: FormData) => {
     data.id = editData?.id;
     data.is_available = editData?.is_available;
-    const message = await updateType.mutateAsync(data);
-    if (message) setOpen(false);
+    updateType.mutate(data, {
+      onSuccess: (message) => handleSuccess(message, setOpen, toast),
+      onError: (error) => handleError(error, toast),
+    });
   };
 
   return (

@@ -3,6 +3,8 @@ import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { usePostModel } from "@/hooks/usePostModel";
 import { DialogTitle } from "@/components/ui/dialog";
+import { useToast } from "@/components/ui/use-toast";
+import { handleError, handleSuccess } from "@/utils/helpers/mutationHandlers";
 
 const schema = yup
   .object({
@@ -15,7 +17,7 @@ type FormProps = {
   setOpen: (value: boolean) => void;
 };
 
-function Form({ setOpen}: FormProps) {
+function Form({ setOpen }: FormProps) {
   const {
     register,
     handleSubmit,
@@ -23,12 +25,14 @@ function Form({ setOpen}: FormProps) {
   } = useForm<FormData>({
     resolver: yupResolver<FormData>(schema),
   });
-
+  const { toast } = useToast();
   const createSet = usePostModel("admin/sets", "sets", "POST");
 
-  const handleLogin = async (data: FormData) => {
-    const message = await createSet.mutateAsync(data);
-    if (message) setOpen(false);
+  const handleLogin = (data: FormData) => {
+    createSet.mutate(data, {
+      onSuccess: (message) => handleSuccess(message, setOpen, toast),
+      onError: (error) => handleError(error, toast),
+    });
   };
 
   return (
@@ -56,7 +60,6 @@ function Form({ setOpen}: FormProps) {
                     {errors.name?.message}
                   </span>
                 )}
-                
               </div>
             </div>
           </div>

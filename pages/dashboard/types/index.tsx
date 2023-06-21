@@ -1,6 +1,6 @@
 import TableHeader from "@/components/type/TableHeader";
 import { columns } from "@/components/type/columns";
-import { DataTable } from "@/components/table/data-table";
+import { DataTable } from "@/components/data-table/data-table";
 import { useFetchModel } from "@/hooks/useFetchModel";
 import { Type } from "@/utils/types";
 import { useState } from "react";

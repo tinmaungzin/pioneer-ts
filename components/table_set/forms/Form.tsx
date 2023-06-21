@@ -6,6 +6,8 @@ import { DialogTitle } from "@/components/ui/dialog";
 import { useFetchAllModel } from "@/hooks/useFetchAllModel";
 import { Set, Type } from "@/utils/types";
 import { string, object, number } from "yup";
+import { useToast } from "@/components/ui/use-toast";
+import { handleError, handleSuccess } from "@/utils/helpers/mutationHandlers";
 
 interface IField {
   name: string;
@@ -53,10 +55,11 @@ function Form({ setOpen }: FormProps) {
   } = useForm<FormData>({
     resolver: yupResolver<FormData>(schema),
   });
+  const { toast } = useToast();
 
   const createTableSet = usePostModel("admin/set_types", "set_types", "POST");
 
-  const handleLogin = async (data: FormData) => {
+  const handleLogin = (data: FormData) => {
     const setPrices = Object.entries(data).reduce<
       { price: number; set_id: number }[]
     >((acc, [key, value]) => {
@@ -75,14 +78,16 @@ function Form({ setOpen }: FormProps) {
       type_id: data.type_id,
       table_count: data.table_count,
     };
-    const message = await createTableSet.mutateAsync(result);
-    if (message) setOpen(false);
+    createTableSet.mutate(result, {
+      onSuccess: (message) => handleSuccess(message, setOpen, toast),
+      onError: (error) => handleError(error, toast),
+    });
   };
 
   return (
     <>
       <DialogTitle className="text-center my-4 text-xl">
-        Add new set
+        Add new table set
       </DialogTitle>
 
       <div className="mt-8">

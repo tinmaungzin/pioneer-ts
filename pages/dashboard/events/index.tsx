@@ -1,7 +1,7 @@
 import TableHeader from "@/components/event/TableHeader";
 import { columns } from "@/components/event/columns";
 import Layout from "@/components/layout/dashboard/Layout";
-import { DataTable } from "@/components/table/data-table";
+import { DataTable } from "@/components/data-table/data-table";
 import { useFetchModel } from "@/hooks/useFetchModel";
 import { Event } from "@/utils/types";
 import { useState } from "react";

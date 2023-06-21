@@ -1,6 +1,8 @@
 import { DialogDescription, DialogTitle } from "@/components/ui/dialog";
+import { useToast } from "@/components/ui/use-toast";
 import { useDeleteModel } from "@/hooks/useDeleteModel";
 import { Staff } from "@/utils/types";
+import { handleError, handleSuccess } from "@/utils/helpers/mutationHandlers";
 
 type FormProps = {
   setOpen: (value: boolean) => void;
@@ -10,10 +12,14 @@ type FormProps = {
 };
 
 function DeleteForm({ setOpen, editData, name, title }: FormProps) {
+  const { toast } = useToast();
+
   const deleteAdmin = useDeleteModel("admin/staffs/" + editData?.id, name);
-  const handleDelete = async () => {
-    const message = await deleteAdmin.mutateAsync();
-    if (message) setOpen(false);
+  const handleDelete = () => {
+    deleteAdmin.mutate(undefined, {
+      onSuccess: (message) => handleSuccess(message, setOpen, toast),
+      onError: (error) => handleError(error, toast),
+    });
   };
   return (
     <>

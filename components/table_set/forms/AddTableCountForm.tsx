@@ -1,5 +1,7 @@
 import { DialogTitle } from "@/components/ui/dialog";
+import { useToast } from "@/components/ui/use-toast";
 import { usePostModel } from "@/hooks/usePostModel";
+import { handleError, handleSuccess } from "@/utils/helpers/mutationHandlers";
 import { TableSet } from "@/utils/types";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
@@ -24,16 +26,18 @@ function AddTableCountForm({ setOpen, editData }: FormProps) {
   } = useForm<FormData>({
     resolver: yupResolver<FormData>(schema),
   });
-
+  const { toast } = useToast();
   const updateTableCount = usePostModel("admin/set_types", "set_types", "POST");
 
-  const handleLogin = async (data: FormData) => {
+  const handleLogin =  (data: FormData) => {
     const newData = {
       type_id: editData.type_id,
       table_count: data.table_count,
     };
-    const message = await updateTableCount.mutateAsync(newData);
-    if (message) setOpen(false);
+    updateTableCount.mutate(newData, {
+      onSuccess: (message) => handleSuccess(message, setOpen, toast),
+      onError: (error) => handleError(error, toast),
+    });
   };
   return (
     <>

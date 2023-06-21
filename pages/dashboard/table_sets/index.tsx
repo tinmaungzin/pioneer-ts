@@ -1,6 +1,6 @@
 import TableHeader from "@/components/table_set/TableHeader";
 import { columns } from "@/components/table_set/columns";
-import { DataTable } from "@/components/table/data-table";
+import { DataTable } from "@/components/data-table/data-table";
 import { useFetchModel } from "@/hooks/useFetchModel";
 import { TableSet } from "@/utils/types";
 import { useState } from "react";
@@ -56,7 +56,7 @@ function TableSetIndex() {
             data={table_sets?.data}
             pageCount={table_sets?.pageCount}
             setCurrentPage={setCurrentPage}
-            tableHeader={<TableHeader  />}
+            tableHeader={<TableHeader />}
           />
         </div>
       </Layout>
