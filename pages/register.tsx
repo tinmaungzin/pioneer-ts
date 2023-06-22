@@ -4,7 +4,7 @@ import useRegisterUser from "@/store/useRegisterUser";
 import useStore from "@/store/useStore";
 
 export default function UserRegister() {
-  const registerUser = useStore(useRegisterUser, (state:any) => state.registerUser);
+  const registerUser = useStore(useRegisterUser, (state) => state.registerUser);
 
   return <>{registerUser?.id ? <VerifyCode /> : <Register />}</>;
 }

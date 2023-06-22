@@ -33,7 +33,7 @@ function ForgetPassword() {
   const [timer, setTimer] = useState(60);
   const resendCode = usePostModel("user/send_code_by_phone_number", "", "POST");
 
-  const setRegisterUser = useRegisterUser((state:any) => state.setRegisterUser);
+  const setRegisterUser = useRegisterUser((state) => state.setRegisterUser);
 
   const handleResend = (data: FormData) => {
     setError("");
