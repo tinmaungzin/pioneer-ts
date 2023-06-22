@@ -17,7 +17,7 @@ function ConfirmedTableForm({ currentBooking, selectedTable, setOpen }: Props) {
   const { toast } = useToast();
   const updateBooking = usePostModel(
     "staff/bookings/" + currentBooking?.id,
-    "events",
+    "available_events",
     "PUT"
   );
 

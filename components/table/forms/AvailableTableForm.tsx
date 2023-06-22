@@ -34,7 +34,7 @@ function AvailableTableForm({ currentBooking, selectedTable, setOpen }: Props) {
     resolver: yupResolver<FormData>(schema),
   });
   const { toast } = useToast();
-  const bookTable = usePostModel("staff/bookings", "events", "POST");
+  const bookTable = usePostModel("staff/bookings", "available_events", "POST");
 
   const handleBook = (data: FormData) => {
     const newData = { ...data } as Booking;
