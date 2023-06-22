@@ -18,7 +18,7 @@ async function fetchOneModel<T>(
 
 export function useFetchOneModel<T>(
   url: string,
-  name: string
+  key: string,
 ): {
   model?: T;
   isLoading: boolean;
@@ -32,7 +32,7 @@ export function useFetchOneModel<T>(
     isLoading,
     isFetching,
     error,
-  } = useQuery<T>([name, user?.token], () =>
+  } = useQuery<T>([key, user?.token], () =>
     fetchOneModel<T>(url, user?.token)
   );
 

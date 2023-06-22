@@ -45,7 +45,7 @@ function Actions({ table_set }: ActionProps) {
             className="cursor-pointer"
             onSelect={() => setOpenTableCountEdit(true)}
           >
-            Edit table count
+            Add table count
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

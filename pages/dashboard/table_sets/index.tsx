@@ -22,7 +22,7 @@ function TableSetIndex() {
 
   const updatedColumns = [...columns];
   if (table_sets && table_sets.data.length) {
-    const lengths = table_sets.data.map((a) => a?.set_prices.length);
+    const lengths = table_sets.data.map((a) => a?.set_prices?.length);
     const calculatedSetTable =
       table_sets?.data[lengths.indexOf(Math.max(...lengths))];
     calculatedSetTable?.set_prices.map((set_price, index) => {

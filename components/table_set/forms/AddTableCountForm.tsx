@@ -9,7 +9,10 @@ import * as yup from "yup";
 
 const schema = yup
   .object({
-    table_count: yup.number().required("Name field is required"),
+    table_count: yup
+      .number()
+      .required("Table count field is required")
+      .moreThan(0, "Table count must be greater than zero"),
   })
   .required();
 
@@ -42,7 +45,7 @@ function AddTableCountForm({ setOpen, editData }: FormProps) {
   return (
     <>
       <DialogTitle className="text-center my-4 text-xl">
-        Edit table count for {editData.type_name}
+        Add table count for {editData.type_name}
       </DialogTitle>
 
       <div className="mt-8">

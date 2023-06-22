@@ -1,14 +1,21 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 
 type PhotoInputProps = {
+  editPhoto?: string | undefined;
   caption: string;
   name: string;
   register: any;
   errors: any;
 };
 
-function PhotoInput({ caption, name, register, errors }: PhotoInputProps) {
+function PhotoInput({
+  caption,
+  name,
+  register,
+  errors,
+  editPhoto = undefined,
+}: PhotoInputProps) {
   const [selectedPhoto, setSelectedPhoto] = useState<string | undefined>();
   const [isHovered, setIsHovered] = useState(false);
 
@@ -21,6 +28,10 @@ function PhotoInput({ caption, name, register, errors }: PhotoInputProps) {
       reader.readAsDataURL(e.target.files[0]);
     }
   };
+
+  useEffect(() => {
+    if (editPhoto) setSelectedPhoto(editPhoto);
+  }, [editPhoto]);
 
   const handleMouseEnter = () => {
     setIsHovered(true);

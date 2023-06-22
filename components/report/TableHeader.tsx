@@ -40,7 +40,7 @@ function TableHeader({
   month,
   year
 }: TableHeaderProps) {
-  const { models: events } = useFetchAllModel<Event[]>("all_events", "events");
+  const { models: events } = useFetchAllModel<Event[]>("staff/all_events", "events", "all_events");
   return (
     <>
       <div className=" items-center px-4 py-4">

@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 function BookingHistory() {
   const { data: session, status } = useSession();
   const user = session?.user as User;
-  const { model: auth_user } = useFetchOneModel<User>("all", "user");
+  const { model: auth_user } = useFetchOneModel<User>("all", "one_user");
 
   const bookingsByUser = useFetchByPost(`all/bookingByUserId?type=all`);
 

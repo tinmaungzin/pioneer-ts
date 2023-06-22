@@ -20,7 +20,7 @@ type FormProps = {
 };
 
 function EditForm({ setOpen, editData }: FormProps) {
-  const { models: sets } = useFetchAllModel<Set[]>("admin/all_sets", "sets");
+  const { models: sets } = useFetchAllModel<Set[]>("admin/all_sets", "sets", "all_sets");
 
   const fields: IField[] = [];
 

@@ -9,7 +9,8 @@ import { useQueryClient } from "@tanstack/react-query";
 function TableIndex({ socket }: any) {
   const { models: events } = useFetchAllModel<Event[]>(
     "available_events",
-    "events"
+    "events",
+    "available_events"
   );
   const queryClient = useQueryClient();
 
@@ -18,7 +19,7 @@ function TableIndex({ socket }: any) {
 
   useEffect(() => {
     socket.on("event-receive", async (data: any) => {
-      queryClient.invalidateQueries(["events"]);
+      queryClient.invalidateQueries(["available_events"]);
     });
   }, [queryClient, socket]);
 

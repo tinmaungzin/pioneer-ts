@@ -17,7 +17,7 @@ function UserProfile() {
   const router = useRouter();
   const { data: session, status } = useSession();
   const user = session?.user as User;
-  const { model: auth_user } = useFetchOneModel<User>("all", "user"); // because user from session data is updating only when user login
+  const { model: auth_user } = useFetchOneModel<User>("all", "one_user"); // because user from session data is updating only when user login
   const [openLogout, setOpenLogout] = useState<boolean>(false);
 
   const unauthenticated =

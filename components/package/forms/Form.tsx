@@ -39,7 +39,7 @@ function Form({ setOpen }: FormProps) {
   });
   const { toast } = useToast();
   const createPackage = usePostModel("admin/packages", "packages", "POST");
-  const { models: types } = useFetchAllModel<Type[]>("all_types", "types");
+  const { models: types } = useFetchAllModel<Type[]>("all_types", "types", "all_types");
 
   const handleLogin = (data: FormD) => {
     interface DataType {

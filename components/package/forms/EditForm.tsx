@@ -47,7 +47,7 @@ function EditForm({ setOpen, editData }: FormProps) {
     "packages",
     "POST"
   );
-  const { models: types } = useFetchAllModel<Type[]>("all_types", "types");
+  const { models: types } = useFetchAllModel<Type[]>("all_types", "types", "all_types");
 
   const handleLogin = (data: FormData) => {
     interface DataType {

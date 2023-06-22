@@ -21,7 +21,8 @@ import Link from "next/link";
 function Header() {
   const { models: events } = useFetchAllModel<Event[]>(
     "available_events",
-    "events"
+    "events",
+    "available_events"
   );
   const { data: session } = useSession();
   const user = session?.user as User;

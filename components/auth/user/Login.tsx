@@ -31,6 +31,7 @@ function Login() {
   const [error, setError] = useState<string>("");
   const [loading, setLoading] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const [passwordVisible, setPasswordVisible] = useState(false);
 
   const handleLogin = async (data: FormData) => {
     setError("");
@@ -80,15 +81,26 @@ function Login() {
               )}
             </div>
             <div>
-              <label className="text-gray-600 mb-2 block">Password</label>
+              <div className="flex items-center justify-between">
+                <label className="text-gray-600 mb-2 block">Password</label>
+                <i
+                  id="password-toggle"
+                  className={`" ml-4 cursor-pointer" ${
+                    passwordVisible ? "fa-solid fa-eye" : " fas fa-eye-slash"
+                  }`}
+                  onClick={() => setPasswordVisible(!passwordVisible)}
+                ></i>
+              </div>
+
               <input
-                type="password"
+                type={passwordVisible ? "text" : "password"}
                 id="password"
                 className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
                 placeholder="*******"
                 defaultValue=""
                 {...register("password")}
               />
+
               {errors.password && (
                 <span className="text-red-500 text-xs">
                   {errors.password?.message}

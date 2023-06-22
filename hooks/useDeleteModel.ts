@@ -3,7 +3,7 @@ import { User } from "@/utils/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 
-export function useDeleteModel(url: string, name: string) {
+export function useDeleteModel(url: string, key: string) {
   const { data: session } = useSession();
   const user = session?.user as User;
   const queryClient = useQueryClient();
@@ -30,7 +30,7 @@ export function useDeleteModel(url: string, name: string) {
       throw error;
     }
 
-    queryClient.invalidateQueries([name]);
+    queryClient.invalidateQueries([key]);
     return message;
   });
 }

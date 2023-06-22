@@ -29,7 +29,7 @@ function Form() {
   const [date, setDate] = useState<Date>();
   const [dateError, setDateError] = useState<string>("");
   const { toast } = useToast();
-  const { models: sets } = useFetchAllModel<Set[]>("admin/all_sets", "sets");
+  const { models: sets } = useFetchAllModel<Set[]>("admin/all_sets", "sets", "all_sets");
   const [selectedTables, setSelectedTables] = useState<(number | undefined)[]>(
     []
   );

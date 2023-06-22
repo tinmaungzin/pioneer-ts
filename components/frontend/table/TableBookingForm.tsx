@@ -25,7 +25,7 @@ function TableBookingForm({ selectedTable, setOpen }: Props) {
   const { data: session, status } = useSession();
   const user = session?.user as User;
   const { toast } = useToast();
-  const { model: auth_user } = useFetchOneModel<User>("all", "user"); // because user from session data is updating only when user login
+  const { model: auth_user } = useFetchOneModel<User>("all", "one_user"); // because user from session data is updating only when user login
   const bookTable = usePostModel("sales_user/bookings", "events", "POST");
   const [useBalance, setUseBalance] = useState<boolean>(false);
   const [note, setNote] = useState<string>();

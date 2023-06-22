@@ -19,9 +19,9 @@ function Slider({ events, setActiveImageIndex }: SliderProps) {
         <Swiper
           style={{ paddingBottom: "50px" }}
           effect={"coverflow"}
-          grabCursor={true}
-          centeredSlides={true}
-          slidesPerView={"auto"}
+          // grabCursor={true}
+          // centeredSlides={true}
+          // slidesPerView={"auto"}
           pagination={{ clickable: true }}
           modules={[EffectCoverflow, Pagination, Autoplay, Navigation]}
           onSlideChange={(swiper) => {

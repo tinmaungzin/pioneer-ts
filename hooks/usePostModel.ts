@@ -3,7 +3,11 @@ import { User } from "@/utils/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
 
-export function usePostModel<T>(url: string, name: string, method: string) {
+export function usePostModel<T>(
+  url: string,
+  key: string | string[],
+  method: string
+) {
   const { data: session } = useSession();
   const user = session?.user as User;
   const queryClient = useQueryClient();
@@ -33,7 +37,14 @@ export function usePostModel<T>(url: string, name: string, method: string) {
       throw error;
     }
 
-    queryClient.invalidateQueries([name]);
+    if (typeof key !== "string") {
+      key?.forEach((k, index) => {
+        console.log(k)
+        queryClient.invalidateQueries([k]);
+      });
+    } else {
+      queryClient.invalidateQueries([key]);
+    }
     return message;
   });
 }

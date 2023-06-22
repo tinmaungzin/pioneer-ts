@@ -12,10 +12,11 @@ type TableFormProps = {
 
 function TableForm({ selectedTables, setSelectedTables, tableError }: TableFormProps) {
   const [selectAll, setSelectAll] = useState(false);
-  const { models: types } = useFetchAllModel<Type[]>("all_types", "types");
+  const { models: types } = useFetchAllModel<Type[]>("all_types", "types", "all_types");
   const { models: tables } = useFetchAllModel<Table[]>(
     "admin/all_tables",
-    "tables"
+    "tables", 
+    "all_tables"
   );
 
   const handleSelectAllChange = () => {

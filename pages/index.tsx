@@ -15,19 +15,20 @@ export default function Home() {
 
   const { models: events, isLoading } = useFetchAllModel<Event[]>(
     "available_events",
-    "events"
+    "events",
+    "available_events"
   );
   const queryClient = useQueryClient();
 
   const [activeImageIndex, setActiveImageIndex] = useState<
     number | undefined
-  >();
+  >(0);
   const [activeEvent, setActiveEvent] = useState<Event | undefined>();
   const [selectedTable, setSelectedTable] = useState<Table | undefined>();
 
   useEffect(() => {
     socket.on("event-receive", async (data: any) => {
-      queryClient.invalidateQueries(["events"]);
+      queryClient.invalidateQueries(["available_events"]);
     });
   }, [queryClient, socket]);
 
@@ -40,6 +41,7 @@ export default function Home() {
   useEffect(() => {
     setSelectedTable(undefined);
   }, [activeEvent]);
+
 
   return (
     <Layout>

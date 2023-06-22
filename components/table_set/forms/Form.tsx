@@ -19,8 +19,8 @@ type FormProps = {
 };
 
 function Form({ setOpen }: FormProps) {
-  const { models: sets } = useFetchAllModel<Set[]>("admin/all_sets", "sets");
-  const { models: types } = useFetchAllModel<Type[]>("all_types", "types");
+  const { models: sets } = useFetchAllModel<Set[]>("admin/all_sets", "sets", "all_sets");
+  const { models: types } = useFetchAllModel<Type[]>("all_types", "types", "all_types");
 
   const fields: IField[] = [
     {
