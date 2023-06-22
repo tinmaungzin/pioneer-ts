@@ -47,14 +47,17 @@ function NewPassword() {
   const registerUser = useStore(useRegisterUser, (state) => state.registerUser);
   const setRegisterUser = useRegisterUser((state) => state.setRegisterUser);
 
-  // useEffect(() => {
-    console.log(!auth_user?.id && !registerUser?.id)
-    // if (!auth_user?.id && !registerUser?.id) {
-    //   router.push("/login");
-    // }
-  // }, [auth_user, registerUser, router]);
 
   const handleLogin = (data: FormData) => {
+    if ((!auth_user?.id || !auth_user?.user_type_id) && !registerUser?.id) {
+      toast({
+        variant: "destructive",
+        description: "Something went wrong",
+      });
+      router.push("/");
+      return
+    }
+
     setError("");
     setLoading(true);
     const values = {
