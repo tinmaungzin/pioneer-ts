@@ -34,8 +34,8 @@ function VerifyCode() {
   const confirmCode = usePostModel("user/confirm_code", "", "POST");
   const resendCode = usePostModel("user/send_code_by_user_id", "", "POST");
 
-  const registerUser = useStore(useRegisterUser, (state) => state.registerUser);
-  const setRegisterUser = useRegisterUser((state) => state.setRegisterUser);
+  const registerUser = useStore(useRegisterUser, (state:any) => state.registerUser);
+  const setRegisterUser = useRegisterUser((state:any) => state.setRegisterUser);
 
   const handleLogin = (data: FormData) => {
     setError("");

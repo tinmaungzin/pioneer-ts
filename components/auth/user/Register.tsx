@@ -37,7 +37,7 @@ function Register() {
   const [loading, setLoading] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const registerUser = usePostModel("user/register", "", "POST");
-  const setRegisterUser = useRegisterUser((state) => state.setRegisterUser);
+  const setRegisterUser = useRegisterUser((state:any) => state.setRegisterUser);
   const handleLogin = (data: FormData) => {
     setError("");
     setLoading(true);

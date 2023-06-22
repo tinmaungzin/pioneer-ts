@@ -5,7 +5,7 @@ import useStore from "@/store/useStore";
 
 function ForgetPasswordIndex() {
 
-  const registerUser = useStore(useRegisterUser, (state) => state.registerUser);
+  const registerUser = useStore(useRegisterUser, (state:any) => state.registerUser);
   return <>{registerUser?.id ? <VerifyCode /> : <ForgetPassword />}</>;
 }
 

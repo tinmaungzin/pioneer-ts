@@ -44,8 +44,8 @@ function NewPassword() {
   const changePassword = usePostModel("user/change_password", "", "POST");
 
   const { model: auth_user } = useFetchOneModel<User>("all", "one_user");
-  const registerUser = useStore(useRegisterUser, (state) => state.registerUser);
-  const setRegisterUser = useRegisterUser((state) => state.setRegisterUser);
+  const registerUser = useStore(useRegisterUser, (state:any) => state.registerUser);
+  const setRegisterUser = useRegisterUser((state:any) => state.setRegisterUser);
 
 
   const handleLogin = (data: FormData) => {
