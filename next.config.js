@@ -2,8 +2,21 @@
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    domains: ["localhost", "https://backend.pioneerentertainment.org"],
+    remotePatterns: [
+      {
+        protocol: "http",
+        hostname: "localhost",
+        port: "8000",
+        pathname: "/download_image/**",
+      },
+      {
+        protocol: "https",
+        hostname: "backend.pioneerentertainment.org",
+        port: "",
+        pathname: "/download_image/**",
+      },
+    ],
   },
-}
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;
