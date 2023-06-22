@@ -36,7 +36,8 @@ function Layout({ children }: { children: ReactNode }) {
                             </button>
                           </Link>
                         </div>
-                      ) : (
+                      ) : null}
+                      {router.pathname === "/register" ? (
                         <div className="flex items-center justify-between py-6">
                           <p className="mb-0 mr-2">Already have an account?</p>
                           <Link href="/login">
@@ -50,7 +51,7 @@ function Layout({ children }: { children: ReactNode }) {
                             </button>
                           </Link>
                         </div>
-                      )}
+                      ) : null}
                     </div>
                   </div>
 

@@ -6,6 +6,7 @@ import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import Loading from "@/components/util/Loading";
 import Layout from "./Layout";
+import Link from "next/link";
 
 const schema = yup
   .object({
@@ -129,6 +130,11 @@ function Login() {
             </button>
           </div>
         </form>
+        <div className="flex justify-end py-2 text-sm">
+          <Link href="/forget_password">
+            <p>Forget Password?</p>
+          </Link>
+        </div>
       </Layout>
     </>
   );

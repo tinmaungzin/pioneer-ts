@@ -12,6 +12,7 @@ import {
 import { useState } from "react";
 import Image from "next/image";
 import BookingHistory from "@/components/frontend/profile/BookingHistory";
+import Link from "next/link";
 
 function UserProfile() {
   const router = useRouter();
@@ -109,9 +110,12 @@ function UserProfile() {
                     </DialogContent>
                   </Dialog>
 
-                  <p className="p-4 cursor-pointer rounded hover:bg-gray-100">
+                <Link href="/new_password">
+                <p className="p-4 cursor-pointer rounded hover:bg-gray-100">
                     Change Password
                   </p>
+                </Link>
+                 
                 </div>
               </div>
             </div>

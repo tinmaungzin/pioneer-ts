@@ -21,7 +21,8 @@ export function usePostModel<T>(
       headers,
       body: isFormData ? data : JSON.stringify(data),
     });
-    const { message } = await res.json();
+
+    const { message, user_id } = await res.json();
 
     if (!res.ok) {
       let error;
@@ -36,15 +37,20 @@ export function usePostModel<T>(
 
       throw error;
     }
+    
 
     if (typeof key !== "string") {
       key?.forEach((k, index) => {
-        console.log(k)
+        console.log(k);
         queryClient.invalidateQueries([k]);
       });
     } else {
       queryClient.invalidateQueries([key]);
     }
+    if(!message)
+    {
+      return user_id;
+    } 
     return message;
   });
 }
