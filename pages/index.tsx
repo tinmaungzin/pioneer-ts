@@ -8,6 +8,7 @@ import { useFetchAllModel } from "@/hooks/useFetchAllModel";
 import { Event, Table, User } from "@/utils/types";
 import { useQueryClient } from "@tanstack/react-query";
 import { format } from "date-fns";
+import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
 
 export default function Home() {
@@ -20,9 +21,9 @@ export default function Home() {
   );
   const queryClient = useQueryClient();
 
-  const [activeImageIndex, setActiveImageIndex] = useState<
-    number | undefined
-  >(0);
+  const [activeImageIndex, setActiveImageIndex] = useState<number | undefined>(
+    0
+  );
   const [activeEvent, setActiveEvent] = useState<Event | undefined>();
   const [selectedTable, setSelectedTable] = useState<Table | undefined>();
 
@@ -37,11 +38,10 @@ export default function Home() {
       setActiveEvent(events[activeImageIndex]);
     }
   }, [activeImageIndex, events]);
-  
+
   useEffect(() => {
     setSelectedTable(undefined);
   }, [activeEvent]);
-
 
   return (
     <Layout>
@@ -73,6 +73,12 @@ export default function Home() {
           <SelectedTableInfo selectedTable={selectedTable} />
         </div>
       )}
+      {!isLoading && !events?.length ? (
+        <div className="flex justify-center items-center flex-col">
+          <p>No event at that moment!</p>
+          <p className="bg-gray-300 my-8 p-4 rounded cursor-pointer hover:bg-gray-400" onClick={() => window.location.reload()}>Refresh</p>
+        </div>
+      ) : null}
     </Layout>
   );
 }
