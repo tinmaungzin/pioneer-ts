@@ -21,7 +21,7 @@ function Layout({ children }: { children: ReactNode }) {
                           Pioneer Entertainment
                         </h4>
                       </div>
-                      {children}
+                      <div className="pb-4">{children}</div>
                       {router.pathname === "/login" ? (
                         <div className="flex items-center justify-between py-6">
                           <p className="mb-0 mr-2">Do not have an account?</p>
