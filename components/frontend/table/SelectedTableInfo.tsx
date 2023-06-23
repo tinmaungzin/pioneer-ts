@@ -60,14 +60,13 @@ function SelectedTableInfo({ selectedTable }: Props) {
                   onOpenChange={setOpenPackageDialog}
                 >
                   <DialogTrigger
-                    className="w-full flex justify-center"
                     data-testid="book-button"
                   >
                     <td className="text-left pl-2 text-gray-600 underline">
                       View
                     </td>
                   </DialogTrigger>
-                  <DialogContent className="bg-white overflow-auto w-[90%]">
+                  <DialogContent className="bg-white w-[90%]">
                     <DialogTitle className="text-center">
                       Package includes:
                     </DialogTitle>
@@ -117,7 +116,7 @@ function SelectedTableInfo({ selectedTable }: Props) {
                   Book Table
                 </button>
               </DialogTrigger>
-              <DialogContent className="bg-white">
+              <DialogContent className="bg-white ">
                 <DialogHeader>
                   <TableBookingForm
                     selectedTable={selectedTable}
