@@ -54,7 +54,7 @@ function TableTabs({ event, selectedTable, setSelectedTable }: TableTabProps) {
                   {event?.tables.map((table, index) => {
                     if (type.id === table.type.id) {
                       return (
-                        <div key={index}>
+                        <div key={index} data-testid={`table_${index}`}>
                           <SingleTable
                             table={table}
                             selectedTable={selectedTable}

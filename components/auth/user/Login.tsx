@@ -70,6 +70,7 @@ function Login() {
                 type="text"
                 autoComplete="off"
                 id="email"
+                data-testid="phone-input"
                 className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
                 placeholder="091234567"
                 defaultValue=""
@@ -99,6 +100,7 @@ function Login() {
                 className="block w-full border border-gray-300 px-4 py-3 text-gray-600 text-sm rounded focus:ring-0 focus:border-primary placeholder-gray-400"
                 placeholder="*******"
                 defaultValue=""
+                data-testid="password-input"
                 {...register("password")}
               />
 
@@ -117,6 +119,7 @@ function Login() {
           >
             <button
               type="submit"
+              data-testid="login-submit"
               className="block w-full py-2 text-center text-white bg-black border border-black rounded hover:bg-transparent hover:text-black transition uppercase font-roboto font-medium relative"
             >
               {loading && (

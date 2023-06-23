@@ -12,7 +12,9 @@ function GoToLogin({ setOpen }: Props) {
       </p>
       <div className="flex flex-row justify-center mt-4">
         <button className="mx-2 py-1 px-4 text-center text-white bg-black border border-black rounded-md hover:bg-transparent hover:text-black transition font-medium">
-          <Link href="/login">Login</Link>
+          <Link href="/login" data-testid="login-dialog-button">
+            Login
+          </Link>
         </button>
         <button
           onClick={() => setOpen(false)}

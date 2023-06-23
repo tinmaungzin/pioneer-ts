@@ -41,7 +41,6 @@ export function usePostModel<T>(
 
     if (typeof key !== "string") {
       key?.forEach((k, index) => {
-        console.log(k);
         queryClient.invalidateQueries([k]);
       });
     } else {

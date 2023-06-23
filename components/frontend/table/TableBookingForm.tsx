@@ -26,7 +26,11 @@ function TableBookingForm({ selectedTable, setOpen }: Props) {
   const user = session?.user as User;
   const { toast } = useToast();
   const { model: auth_user } = useFetchOneModel<User>("all", "one_user"); // because user from session data is updating only when user login
-  const bookTable = usePostModel("sales_user/bookings", "available_events", "POST");
+  const bookTable = usePostModel(
+    "sales_user/bookings",
+    "available_events",
+    "POST"
+  );
   const [useBalance, setUseBalance] = useState<boolean>(false);
   const [note, setNote] = useState<string>();
   const [photo, setPhoto] = useState<File | undefined>();
@@ -43,14 +47,14 @@ function TableBookingForm({ selectedTable, setOpen }: Props) {
 
   const notEnoughBalance =
     !isSalePerson &&
-    selectedTable?.price &&
-    auth_user?.balance &&
+    selectedTable?.price !== undefined &&
+    auth_user?.balance !== undefined &&
     useBalance &&
     selectedTable?.price > auth_user?.balance;
   const enoughBalance =
     !isSalePerson &&
-    selectedTable?.price &&
-    auth_user?.balance &&
+    selectedTable?.price !== undefined &&
+    auth_user?.balance !== undefined &&
     useBalance &&
     selectedTable?.price <= auth_user?.balance;
 
@@ -150,6 +154,7 @@ function TableBookingForm({ selectedTable, setOpen }: Props) {
           <div className="my-8">
             <Switch
               checked={useBalance}
+              data-testid="use-balance-switch"
               onCheckedChange={() => {
                 setUseBalance(!useBalance);
                 setPhotoRequired("");
@@ -170,6 +175,7 @@ function TableBookingForm({ selectedTable, setOpen }: Props) {
           <button
             onClick={handleBook}
             disabled={isButtonDisabled}
+            data-testid="book-table"
             className="mx-2 py-1 px-4 text-center text-white bg-black border border-black rounded-md hover:bg-transparent hover:text-black transition font-medium disabled:cursor-not-allowed "
           >
             Book
