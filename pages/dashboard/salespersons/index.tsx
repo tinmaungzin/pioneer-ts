@@ -3,9 +3,9 @@ import { DataTable } from "@/components/data-table/data-table";
 import Layout from "@/components/layout/dashboard/Layout";
 import { useFetchModel } from "@/hooks/useFetchModel";
 import { User } from "@/utils/types";
-import TableHeader from "@/components/user/TableHeader";
 import { useState } from "react";
 import Actions from "@/components/user/action";
+import Form from "@/components/user/forms/Form";
 
 type UserWithPageCount = {
   data: User[];
@@ -48,13 +48,8 @@ function SalespersonIndex() {
             data={salespersons?.data}
             pageCount={salespersons?.pageCount}
             setCurrentPage={setCurrentPage}
-            tableHeader={
-              <TableHeader
-                title="Salesperson"
-                subtitle="salesperson"
-                name="salespersons"
-              />
-            }
+            title="Salesperson"
+            addIcon={<Form title="salesperson" name="salespersons" />}
           />
         </div>
       </Layout>

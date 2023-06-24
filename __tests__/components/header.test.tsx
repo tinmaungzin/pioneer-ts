@@ -1,37 +1,18 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import { useSession } from "next-auth/react";
 import Header from "@/components/layout/front/Header";
-jest.mock("next-auth/react");
-
-jest.mock("next/router", () => ({
-  useRouter() {
-    return {
-      pathname: "",
-    };
-  },
-}));
-
-jest.mock("@tanstack/react-query", () => ({
-  useQuery: jest.fn().mockReturnValue({ isLoading: false, error: {} }),
-}));
+import { MockUser } from "@/__mocks__/Users";
 
 describe("Header component", () => {
   it("should render logout button", () => {
-    (useSession as jest.Mock).mockReturnValueOnce({ status: "authenticated" });
-
-    render(<Header />);
+    render(<Header status="authenticated" user={MockUser} />);
     const profileLink = screen.getByTestId("profile-button");
     expect(profileLink).toBeInTheDocument();
   });
 
   it("should render login button", () => {
-    (useSession as jest.Mock).mockReturnValueOnce({
-      status: "unauthenticated",
-    });
-
-    render(<Header />);
+    render(<Header status="unauthenticated" user={MockUser} />);
     const loginLink = screen.getByTestId("login-button");
     expect(loginLink).toBeInTheDocument();
   });

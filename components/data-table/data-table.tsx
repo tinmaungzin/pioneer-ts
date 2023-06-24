@@ -20,16 +20,18 @@ interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[] | undefined;
   pageCount: number | undefined;
-  tableHeader?: ReactNode;
   setCurrentPage: (value: number) => void;
+  title: string;
+  addIcon?: ReactNode;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data = [],
   pageCount,
-  tableHeader,
   setCurrentPage,
+  title,
+  addIcon = null,
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
@@ -42,7 +44,10 @@ export function DataTable<TData, TValue>({
   return (
     <>
       <div className="rounded-md border">
-        {tableHeader}
+        <div className="flex justify-between items-center px-4 py-4">
+          <h2 className="text-lg font-semibold">{title}</h2>
+          {addIcon}
+        </div>
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

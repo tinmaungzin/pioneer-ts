@@ -3,7 +3,6 @@ import { DataTable } from "@/components/data-table/data-table";
 import Layout from "@/components/layout/dashboard/Layout";
 import { useFetchModel } from "@/hooks/useFetchModel";
 import { User } from "@/utils/types";
-import TableHeader from "@/components/user/TableHeader";
 import { useState } from "react";
 import Actions from "@/components/user/action";
 
@@ -51,9 +50,8 @@ function UserIndex() {
             data={salespersons?.data}
             pageCount={salespersons?.pageCount}
             setCurrentPage={setCurrentPage}
-            tableHeader={
-              <TableHeader title="User" subtitle="user" name="users" />
-            }
+            title="Users"
+            
           />
         </div>
       </Layout>

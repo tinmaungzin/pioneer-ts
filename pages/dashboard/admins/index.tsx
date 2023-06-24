@@ -3,8 +3,8 @@ import { DataTable } from "@/components/data-table/data-table";
 import Layout from "@/components/layout/dashboard/Layout";
 import { useFetchModel } from "@/hooks/useFetchModel";
 import { Staff } from "@/utils/types";
-import TableHeader from "@/components/staff/TableHeader";
 import { useState } from "react";
+import Form from "@/components/staff/forms/Form";
 
 type StaffWithPageCount = {
   data: Staff[];
@@ -28,9 +28,8 @@ function AdminIndex() {
             data={staffs?.data}
             pageCount={staffs?.pageCount}
             setCurrentPage={setCurrentPage}
-            tableHeader={
-              <TableHeader title="Admins" subtitle="admin" name="admins" />
-            }
+            title="Admins"
+            addIcon={<Form title="admin" name="admins" />}
           />
         </div>
       </Layout>

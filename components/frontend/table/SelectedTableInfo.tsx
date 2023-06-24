@@ -22,21 +22,21 @@ function SelectedTableInfo({ selectedTable }: Props) {
   return (
     <>
       {selectedTable ? (
-        <div className="my-4">
-          <table className="mx-auto my-2 mb-4" id="table-detail">
+        <div className="my-4 bg-white py-12 px-32 mx-12 rounded-md border">
+          <div className="flex justify-center">
+            <p className="text-2xl">{selectedTable?.name}</p>
+          </div>
+          <div className="flex justify-center py-2">
+            <p className="text-gray-600">{selectedTable?.price} MMK</p>
+          </div>
+          <table className="mx-auto my-2 mb-2" id="table-detail">
             <tbody className="text-sm">
-              <tr>
-                <td className="text-right pr-2 py-1 text-black">Table name:</td>
-                <td className="text-left pl-2 text-gray-600 ">
-                  {selectedTable?.name}
-                </td>
-              </tr>
-              <tr>
+              {/* <tr>
                 <td className="text-right pr-2 py-1 text-black">Price:</td>
                 <td className="text-left pl-2 text-gray-600 ">
                   {selectedTable?.price} MMK
                 </td>
-              </tr>
+              </tr> */}
               <tr>
                 <td className="text-right pr-2 py-1 text-black">
                   Allowed people:
@@ -51,54 +51,45 @@ function SelectedTableInfo({ selectedTable }: Props) {
                   {selectedTable?.booking_status}
                 </td>
               </tr>
-              <tr>
-                <td className="text-right pr-2 py-1 text-black">
-                  Package includes:
-                </td>
-                <Dialog
-                  open={openPackageDialog}
-                  onOpenChange={setOpenPackageDialog}
-                >
-                  <DialogTrigger
-                    data-testid="book-button"
-                  >
-                    <td className="text-left pl-2 text-gray-600 underline">
-                      View
-                    </td>
-                  </DialogTrigger>
-                  <DialogContent className="bg-white w-[90%]">
-                    <DialogTitle className="text-center">
-                      Package includes:
-                    </DialogTitle>
-                    <DialogHeader>
-                      <div className="grid grid-cols-2">
-                        {selectedTable?.packages?.map((pakage, index) => {
-                          return (
-                            <Image
-                              key={index}
-                              alt="package photo"
-                              src={`${originUrl}/download_image/${pakage?.photo}`}
-                              width={500}
-                              height={300}
-                              className="w-full h-[50%]"
-                            />
-                          );
-                        })}
-                      </div>
-                    </DialogHeader>
-                    <div className="flex justify-center">
-                      <button
-                        onClick={() => setOpenPackageDialog(false)}
-                        className="mx-2 py-1 px-4 text-center text-black bg-transparent border border-black rounded-md hover:bg-black hover:text-white transition font-medium "
-                      >
-                        Cancel
-                      </button>
-                    </div>
-                  </DialogContent>
-                </Dialog>
-              </tr>
             </tbody>
           </table>
+          <Dialog open={openPackageDialog} onOpenChange={setOpenPackageDialog}>
+            <div className="flex justify-center pb-6">
+              <DialogTrigger data-testid="book-button">
+                <p className="text-left pl-2 text-gray-600 underline text-sm">View packages</p>
+              </DialogTrigger>
+            </div>
+
+            <DialogContent className="bg-white w-[90%]">
+              <DialogTitle className="text-center">
+                Package includes:
+              </DialogTitle>
+              <DialogHeader>
+                <div>
+                  {selectedTable?.packages?.map((pakage, index) => {
+                    return (
+                      <Image
+                        key={index}
+                        alt="package photo"
+                        src={`${originUrl}/download_image/${pakage?.photo}`}
+                        width={500}
+                        height={300}
+                        className="w-full h-[50%] p-1"
+                      />
+                    );
+                  })}
+                </div>
+              </DialogHeader>
+              <div className="flex justify-center">
+                <button
+                  onClick={() => setOpenPackageDialog(false)}
+                  className="mx-2 py-1 px-4 text-center text-black bg-transparent border border-black rounded-md hover:bg-black hover:text-white transition font-medium "
+                >
+                  Cancel
+                </button>
+              </div>
+            </DialogContent>
+          </Dialog>
           {!isAvailable ? (
             <p className="text-center text-sm text-red-400">
               This table is not available!

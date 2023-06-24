@@ -8,19 +8,30 @@ import { Set, Type } from "@/utils/types";
 import { string, object, number } from "yup";
 import { useToast } from "@/components/ui/use-toast";
 import { handleError, handleSuccess } from "@/utils/helpers/mutationHandlers";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { useState } from "react";
 
 interface IField {
   name: string;
   type: any;
 }
 
-type FormProps = {
-  setOpen: (value: boolean) => void;
-};
-
-function Form({ setOpen }: FormProps) {
-  const { models: sets } = useFetchAllModel<Set[]>("admin/all_sets", "sets", "all_sets");
-  const { models: types } = useFetchAllModel<Type[]>("all_types", "types", "all_types");
+function Form() {
+  const { models: sets } = useFetchAllModel<Set[]>(
+    "admin/all_sets",
+    "sets",
+    "all_sets"
+  );
+  const { models: types } = useFetchAllModel<Type[]>(
+    "all_types",
+    "types",
+    "all_types"
+  );
 
   const fields: IField[] = [
     {
@@ -56,6 +67,7 @@ function Form({ setOpen }: FormProps) {
     resolver: yupResolver<FormData>(schema),
   });
   const { toast } = useToast();
+  const [open, setOpen] = useState<boolean>(false);
 
   const createTableSet = usePostModel("admin/set_types", "set_types", "POST");
 
@@ -86,85 +98,96 @@ function Form({ setOpen }: FormProps) {
 
   return (
     <>
-      <DialogTitle className="text-center my-4 text-xl">
-        Add new table set
-      </DialogTitle>
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogTrigger>
+          <i className="fa-solid fa-plus text-2xl text-gray-600 hover:text-gray-800 cursor-pointer"></i>
+        </DialogTrigger>
+        <DialogContent className="bg-white">
+          <DialogHeader>
+            <div>
+              <DialogTitle className="text-center my-4 text-xl">
+                Add new table set
+              </DialogTitle>
 
-      <div className="mt-8">
-        <form onSubmit={handleSubmit(handleLogin)}>
-          <div className="space-y-4">
-            <div className="grid grid-cols-1 gap-4">
-              <div>
-                <label>Type</label>
-                <select
-                  id="type_id"
-                  className="input-box"
-                  {...register("type_id")}
-                >
-                  <option value="">Select a type</option>
-                  {types?.map((type, index) => {
-                    return (
-                      <option key={index} value={type.id}>
-                        {type.name}
-                      </option>
-                    );
-                  })}
-                </select>
-                {errors.type_id && (
-                  <span className="text-red-500 text-xs">
-                    {String(errors.type_id.message)}
-                  </span>
-                )}
-              </div>
-              <div>
-                <label>Table Count</label>
-                <input
-                  type="number"
-                  id="name"
-                  className="input-box"
-                  autoComplete="off"
-                  defaultValue=""
-                  {...register("table_count")}
-                />
-                {errors.table_count && (
-                  <span className="text-red-500 text-xs">
-                    {String(errors.table_count.message)}
-                  </span>
-                )}
-              </div>
-              {sets?.map((set, index) => {
-                return (
-                  <div key={index}>
-                    <label>Price for {set.name}</label>
-                    <input
-                      type="number"
-                      id="name"
-                      className="input-box"
-                      autoComplete="off"
-                      defaultValue=""
-                      {...register(`set_${set.id}_price`)}
-                    />
-                    {errors[`set_${set.id}_price`] && (
-                      <span className="text-red-500 text-xs">
-                        {String(errors[`set_${set.id}_price`]?.message)}
-                      </span>
-                    )}
+              <div className="mt-8">
+                <form onSubmit={handleSubmit(handleLogin)}>
+                  <div className="space-y-4">
+                    <div className="grid grid-cols-1 gap-4">
+                      <div>
+                        <label>Type</label>
+                        <select
+                          id="type_id"
+                          className="input-box"
+                          {...register("type_id")}
+                        >
+                          <option value="">Select a type</option>
+                          {types?.map((type, index) => {
+                            return (
+                              <option key={index} value={type.id}>
+                                {type.name}
+                              </option>
+                            );
+                          })}
+                        </select>
+                        {errors.type_id && (
+                          <span className="text-red-500 text-xs">
+                            {String(errors.type_id.message)}
+                          </span>
+                        )}
+                      </div>
+                      <div>
+                        <label>Table Count</label>
+                        <input
+                          type="number"
+                          id="name"
+                          className="input-box"
+                          autoComplete="off"
+                          defaultValue=""
+                          {...register("table_count")}
+                        />
+                        {errors.table_count && (
+                          <span className="text-red-500 text-xs">
+                            {String(errors.table_count.message)}
+                          </span>
+                        )}
+                      </div>
+                      {sets?.map((set, index) => {
+                        return (
+                          <div key={index}>
+                            <label>Price for {set.name}</label>
+                            <input
+                              type="number"
+                              id="name"
+                              className="input-box"
+                              autoComplete="off"
+                              defaultValue=""
+                              {...register(`set_${set.id}_price`)}
+                            />
+                            {errors[`set_${set.id}_price`] && (
+                              <span className="text-red-500 text-xs">
+                                {String(errors[`set_${set.id}_price`]?.message)}
+                              </span>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
                   </div>
-                );
-              })}
-            </div>
-          </div>
 
-          <div className="mt-4">
-            <button
-              type="submit"
-              className="py-1 px-4 text-center text-white bg-black border border-black rounded-md hover:bg-transparent hover:text-black transition font-medium"
-            >
-              Save
-            </button>
-          </div>
-        </form>
-      </div>
+                  <div className="mt-4">
+                    <button
+                      type="submit"
+                      className="py-1 px-4 text-center text-white bg-black border border-black rounded-md hover:bg-transparent hover:text-black transition font-medium"
+                    >
+                      Save
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
     </>
   );
 }

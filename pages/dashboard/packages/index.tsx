@@ -1,10 +1,10 @@
 import Layout from "@/components/layout/dashboard/Layout";
-import TableHeader from "@/components/package/TableHeader";
 import { columns } from "@/components/package/columns";
 import { DataTable } from "@/components/data-table/data-table";
 import { useFetchModel } from "@/hooks/useFetchModel";
 import { Package } from "@/utils/types";
 import { useState } from "react";
+import Form from "@/components/package/forms/Form";
 
 type PackageWithPageCount = {
   data: Package[];
@@ -26,7 +26,8 @@ function PackageIndex() {
             data={packages?.data}
             pageCount={packages?.pageCount}
             setCurrentPage={setCurrentPage}
-            tableHeader={<TableHeader />}
+            title="Packages"
+            addIcon={<Form />}
           />
         </div>
       </Layout>

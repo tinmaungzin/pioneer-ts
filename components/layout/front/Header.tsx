@@ -11,10 +11,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Session } from "next-auth";
 
-function Header() {
-  const { data: session, status } = useSession();
-  const user = session?.user as User;
+type Props = {
+  status: string;
+  user: User;
+};
+
+function Header({ status, user }: Props) {
   const unauthenticated =
     status === "unauthenticated" || (user && !("user_type_id" in user));
 

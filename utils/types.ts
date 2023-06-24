@@ -23,8 +23,8 @@ export type User = {
   balance?: number;
   new_balance?: number;
   point?: number;
-  created_at: string;
-  updated_at: string;
+  created_at?: string;
+  updated_at?: string;
   exp?: string;
   iat?: string;
   jti?: string;

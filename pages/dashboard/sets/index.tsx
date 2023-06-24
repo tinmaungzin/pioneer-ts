@@ -1,10 +1,10 @@
 import Layout from "@/components/layout/dashboard/Layout";
-import TableHeader from "@/components/set/TableHeader";
 import { columns } from "@/components/set/columns";
 import { DataTable } from "@/components/data-table/data-table";
 import { useFetchModel } from "@/hooks/useFetchModel";
 import { Set } from "@/utils/types";
 import { useState } from "react";
+import Form from "@/components/set/forms/Form";
 
 type SetWithPageCount = {
   data: Set[];
@@ -26,7 +26,8 @@ function SetIndex() {
             data={sets?.data}
             pageCount={sets?.pageCount}
             setCurrentPage={setCurrentPage}
-            tableHeader={<TableHeader />}
+            title="Sets"
+            addIcon={<Form /> }
           />
         </div>
       </Layout>

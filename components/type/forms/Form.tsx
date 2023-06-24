@@ -5,6 +5,13 @@ import { usePostModel } from "@/hooks/usePostModel";
 import { DialogTitle } from "@/components/ui/dialog";
 import { useToast } from "@/components/ui/use-toast";
 import { handleError, handleSuccess } from "@/utils/helpers/mutationHandlers";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { useState } from "react";
 
 const schema = yup
   .object({
@@ -15,11 +22,8 @@ const schema = yup
   .required();
 
 type FormData = yup.InferType<typeof schema>;
-type FormProps = {
-  setOpen: (value: boolean) => void;
-};
 
-function Form({ setOpen }: FormProps) {
+function Form() {
   const {
     register,
     handleSubmit,
@@ -28,6 +32,7 @@ function Form({ setOpen }: FormProps) {
     resolver: yupResolver<FormData>(schema),
   });
   const { toast } = useToast();
+  const [open, setOpen] = useState<boolean>(false);
   const createType = usePostModel("admin/types", "types", "POST");
 
   const handleLogin = (data: FormData) => {
@@ -40,59 +45,70 @@ function Form({ setOpen }: FormProps) {
 
   return (
     <>
-      <DialogTitle className="text-center my-4 text-xl">
-        Add new type
-      </DialogTitle>
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogTrigger>
+          <i className="fa-solid fa-plus text-2xl text-gray-600 hover:text-gray-800 cursor-pointer"></i>
+        </DialogTrigger>
+        <DialogContent className="bg-white">
+          <DialogHeader>
+            <div>
+              <DialogTitle className="text-center my-4 text-xl">
+                Add new type
+              </DialogTitle>
 
-      <div className="mt-8">
-        <form onSubmit={handleSubmit(handleLogin)}>
-          <div className="space-y-4">
-            <div className="grid grid-cols-1 gap-4">
-              <div>
-                <label>Name</label>
-                <input
-                  type="text"
-                  id="name"
-                  className="input-box"
-                  autoComplete="off"
-                  defaultValue=""
-                  {...register("name")}
-                />
-                {errors.name && (
-                  <span className="text-red-500 text-xs">
-                    {errors.name?.message}
-                  </span>
-                )}
-              </div>
-              <div>
-                <label>Allowed people</label>
-                <input
-                  type="number"
-                  id="allowed_people"
-                  className="input-box"
-                  autoComplete="off"
-                  defaultValue="0"
-                  {...register("allowed_people")}
-                />
-                {errors.allowed_people && (
-                  <span className="text-red-500 text-xs">
-                    {errors.allowed_people?.message}
-                  </span>
-                )}
+              <div className="mt-8">
+                <form onSubmit={handleSubmit(handleLogin)}>
+                  <div className="space-y-4">
+                    <div className="grid grid-cols-1 gap-4">
+                      <div>
+                        <label>Name</label>
+                        <input
+                          type="text"
+                          id="name"
+                          className="input-box"
+                          autoComplete="off"
+                          defaultValue=""
+                          {...register("name")}
+                        />
+                        {errors.name && (
+                          <span className="text-red-500 text-xs">
+                            {errors.name?.message}
+                          </span>
+                        )}
+                      </div>
+                      <div>
+                        <label>Allowed people</label>
+                        <input
+                          type="number"
+                          id="allowed_people"
+                          className="input-box"
+                          autoComplete="off"
+                          defaultValue="0"
+                          {...register("allowed_people")}
+                        />
+                        {errors.allowed_people && (
+                          <span className="text-red-500 text-xs">
+                            {errors.allowed_people?.message}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="mt-4">
+                    <button
+                      type="submit"
+                      className="py-1 px-4 text-center text-white bg-black border border-black rounded-md hover:bg-transparent hover:text-black transition font-medium"
+                    >
+                      Save
+                    </button>
+                  </div>
+                </form>
               </div>
             </div>
-          </div>
-
-          <div className="mt-4">
-            <button
-              type="submit"
-              className="py-1 px-4 text-center text-white bg-black border border-black rounded-md hover:bg-transparent hover:text-black transition font-medium"
-            >
-              Save
-            </button>
-          </div>
-        </form>
-      </div>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
     </>
   );
 }

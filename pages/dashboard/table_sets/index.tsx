@@ -1,4 +1,3 @@
-import TableHeader from "@/components/table_set/TableHeader";
 import { columns } from "@/components/table_set/columns";
 import { DataTable } from "@/components/data-table/data-table";
 import { useFetchModel } from "@/hooks/useFetchModel";
@@ -6,6 +5,7 @@ import { TableSet } from "@/utils/types";
 import { useState } from "react";
 import Actions from "@/components/table_set/action";
 import Layout from "@/components/layout/dashboard/Layout";
+import Form from "@/components/table_set/forms/Form";
 
 type TableSetWithPageCount = {
   data: TableSet[];
@@ -56,7 +56,8 @@ function TableSetIndex() {
             data={table_sets?.data}
             pageCount={table_sets?.pageCount}
             setCurrentPage={setCurrentPage}
-            tableHeader={<TableHeader />}
+            title="Table Sets"
+            addIcon={<Form />}
           />
         </div>
       </Layout>

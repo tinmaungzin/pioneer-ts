@@ -5,6 +5,7 @@ import { DataTable } from "@/components/data-table/data-table";
 import { useFetchModel } from "@/hooks/useFetchModel";
 import { Event } from "@/utils/types";
 import { useState } from "react";
+import AddNewPage from "@/components/layout/dashboard/AddNewPage";
 type EventWithPageCount = {
   data: Event[];
   pageCount: number;
@@ -25,7 +26,8 @@ function EventIndex() {
             data={events?.data}
             pageCount={events?.pageCount}
             setCurrentPage={setCurrentPage}
-            tableHeader={<TableHeader />}
+            title="Events"
+            addIcon={<AddNewPage newPageLink="/dashboard/events/new" />}
           />
         </div>
       </Layout>

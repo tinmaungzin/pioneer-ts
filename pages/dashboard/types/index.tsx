@@ -1,10 +1,10 @@
-import TableHeader from "@/components/type/TableHeader";
 import { columns } from "@/components/type/columns";
 import { DataTable } from "@/components/data-table/data-table";
 import { useFetchModel } from "@/hooks/useFetchModel";
 import { Type } from "@/utils/types";
 import { useState } from "react";
 import Layout from "@/components/layout/dashboard/Layout";
+import Form from "@/components/type/forms/Form";
 
 type TypeWithPageCount = {
   data: Type[];
@@ -26,7 +26,8 @@ function TypeIndex() {
             data={types?.data}
             pageCount={types?.pageCount}
             setCurrentPage={setCurrentPage}
-            tableHeader={<TableHeader />}
+            title="Types"
+            addIcon={<Form />}
           />
         </div>
       </Layout>

@@ -5,15 +5,14 @@ import TableTabs from "@/components/frontend/table/TableTabs";
 import Layout from "@/components/layout/front/Layout";
 import { SocketContext } from "@/context/socket";
 import { useFetchAllModel } from "@/hooks/useFetchAllModel";
-import { Event, Table, User } from "@/utils/types";
+import { Event, Table } from "@/utils/types";
 import { useQueryClient } from "@tanstack/react-query";
-import { format } from "date-fns";
-import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
+
+import EventInfo from "@/components/frontend/event/EventInfo";
 
 export default function Home() {
   const socket = useContext(SocketContext);
-
   const { models: events, isLoading } = useFetchAllModel<Event[]>(
     "available_events",
     "events",
@@ -51,32 +50,31 @@ export default function Home() {
         <div>
           <Slider events={events} setActiveImageIndex={setActiveImageIndex} />
           <div>
-            <p className="text-center text-4xl font-semibold py-1">
-              {activeEvent?.name}
-            </p>
-            <p className="text-center text-xl font-semibold py-1">
-              {activeEvent?.date
-                ? format(new Date(activeEvent?.date), "EEEE")
-                : ""}
-            </p>
-            <p className="text-center text-xl font-semibold py-1">
-              {activeEvent?.date
-                ? format(new Date(activeEvent?.date), "dd MMM yyyy")
-                : ""}
-            </p>
+            <EventInfo activeEvent={activeEvent} />
+            <div className="grid grid-cols-1 lg:grid-cols-1 mt-6 gap-4">
+              <div className="flex justify-center">
+                <TableTabs
+                  event={activeEvent}
+                  selectedTable={selectedTable}
+                  setSelectedTable={setSelectedTable}
+                />
+              </div>
+              <div className="flex justify-center">
+                <SelectedTableInfo selectedTable={selectedTable} />
+              </div>
+            </div>
           </div>
-          <TableTabs
-            event={activeEvent}
-            selectedTable={selectedTable}
-            setSelectedTable={setSelectedTable}
-          />
-          <SelectedTableInfo selectedTable={selectedTable} />
         </div>
       )}
       {!isLoading && !events?.length ? (
         <div className="flex justify-center items-center flex-col">
           <p>No event at that moment!</p>
-          <p className="bg-gray-300 my-8 p-4 rounded cursor-pointer hover:bg-gray-400" onClick={() => window.location.reload()}>Refresh</p>
+          <p
+            className="bg-gray-300 my-8 p-4 rounded cursor-pointer hover:bg-gray-400"
+            onClick={() => window.location.reload()}
+          >
+            Refresh
+          </p>
         </div>
       ) : null}
     </Layout>
