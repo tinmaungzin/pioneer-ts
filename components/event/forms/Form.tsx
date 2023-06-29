@@ -13,6 +13,7 @@ import DatePicker from "./DatePicker";
 import { useRouter } from "next/router";
 import { useToast } from "@/components/ui/use-toast";
 import { handleError } from "@/utils/helpers/mutationHandlers";
+import Loading from "@/components/util/Loading";
 
 type FormD = yup.InferType<typeof schema>;
 
@@ -29,7 +30,11 @@ function Form() {
   const [date, setDate] = useState<Date>();
   const [dateError, setDateError] = useState<string>("");
   const { toast } = useToast();
-  const { models: sets } = useFetchAllModel<Set[]>("admin/all_sets", "sets", "all_sets");
+  const { models: sets } = useFetchAllModel<Set[]>(
+    "admin/all_sets",
+    "sets",
+    "all_sets"
+  );
   const [selectedTables, setSelectedTables] = useState<(number | undefined)[]>(
     []
   );
@@ -73,6 +78,7 @@ function Form() {
       onError: (error) => handleError(error, toast),
     });
   };
+  console.log(createEvent.isLoading);
 
   return (
     <>
@@ -171,7 +177,10 @@ function Form() {
             type="submit"
             className="py-1 px-4 text-center text-white bg-black border border-black rounded-md hover:bg-transparent hover:text-black transition font-medium"
           >
-            Save
+            <div className="flex">
+              <p>Save</p>
+              {createEvent.isLoading ? <Loading /> : null}
+            </div>
           </button>
         </div>
       </form>

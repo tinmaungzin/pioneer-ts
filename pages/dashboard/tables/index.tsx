@@ -5,6 +5,8 @@ import { useFetchAllModel } from "@/hooks/useFetchAllModel";
 import { Event, Table, Type } from "@/utils/types";
 import { useEffect, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
+import useStore from "@/store/useStore";
+import useSelectedEvent from "@/store/useSelectedEvent";
 
 function TableIndex({ socket }: any) {
   const { models: events } = useFetchAllModel<Event[]>(
@@ -13,6 +15,11 @@ function TableIndex({ socket }: any) {
     "available_events"
   );
   const queryClient = useQueryClient();
+
+  const storeSelectedEventId = useStore(
+    useSelectedEvent,
+    (state) => state.storeSelectedEventId
+  );
 
   const [selectedEvent, setSelectedEvent] = useState<Event | undefined>();
   const [selectedTable, setSelectedTable] = useState<Table | undefined>();
@@ -25,10 +32,23 @@ function TableIndex({ socket }: any) {
 
   useEffect(() => {
     if (events?.length) {
-      const newSelectedEvent = events.filter(
-        (event) => event.id === selectedEvent?.id
-      );
-      setSelectedEvent(newSelectedEvent[0]);
+      if (storeSelectedEventId) {
+        const newSelectedEvent = events.filter(
+          (event) => event.id === storeSelectedEventId
+        );
+        setSelectedEvent(newSelectedEvent[0]);
+      }
+    }
+  }, [events, storeSelectedEventId]);
+
+  useEffect(() => {
+    if (events?.length) {
+      if (selectedEvent?.id) {
+        const newSelectedEvent = events.filter(
+          (event) => event.id === selectedEvent?.id
+        );
+        setSelectedEvent(newSelectedEvent[0]);
+      }
     }
   }, [events, selectedEvent?.id]);
 

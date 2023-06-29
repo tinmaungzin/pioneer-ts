@@ -9,7 +9,7 @@ import { handleError, handleSuccess } from "@/utils/helpers/mutationHandlers";
 
 const schema = yup
   .object({
-    name: yup.string().required("Name field is required"),
+    // name: yup.string().required("Name field is required"),
     allowed_people: yup.number().required("Allowed people field is required"),
     id: yup.number().optional(),
     is_available: yup.number().optional(),
@@ -38,9 +38,11 @@ function EditForm({ setOpen, editData }: FormProps) {
   );
 
   const handleLogin = (data: FormData) => {
-    data.id = editData?.id;
-    data.is_available = editData?.is_available;
-    updateType.mutate(data, {
+    let newData = { ...editData };
+    newData.allowed_people = String(data.allowed_people);
+    // data.id = editData?.id;
+    // data.is_available = editData?.is_available;
+    updateType.mutate(newData, {
       onSuccess: (message) => handleSuccess(message, setOpen, toast),
       onError: (error) => handleError(error, toast),
     });
@@ -54,7 +56,7 @@ function EditForm({ setOpen, editData }: FormProps) {
         <form onSubmit={handleSubmit(handleLogin)}>
           <div className="space-y-4">
             <div className="grid grid-cols-1 gap-4">
-              <div>
+              {/* <div>
                 <label>Name</label>
                 <input
                   type="text"
@@ -69,11 +71,11 @@ function EditForm({ setOpen, editData }: FormProps) {
                     {errors.name?.message}
                   </span>
                 )}
-              </div>
+              </div> */}
               <div>
                 <label>Allowed people</label>
                 <input
-                  type="text"
+                  type="number"
                   id="allowed_people"
                   className="input-box"
                   autoComplete="off"

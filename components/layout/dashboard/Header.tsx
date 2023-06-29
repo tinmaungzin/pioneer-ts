@@ -17,6 +17,9 @@ import {
 } from "@/components/ui/sheet";
 import { useFetchAllModel } from "@/hooks/useFetchAllModel";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import useStore from "@/store/useStore";
+import useSelectedEvent from "@/store/useSelectedEvent";
 
 function Header() {
   const { models: events } = useFetchAllModel<Event[]>(
@@ -25,8 +28,14 @@ function Header() {
     "available_events"
   );
   const { data: session } = useSession();
+  const router = useRouter();
   const user = session?.user as User;
   const [openLogout, setOpenLogout] = useState<boolean>(false);
+
+
+  const setStoreSelectedEventId = useSelectedEvent(
+    (state) => state.setStoreSelectedEventId
+  );
 
   const eventsWithPendingTables = events?.filter((event) => {
     return event.tables.some((table) => {
@@ -108,18 +117,27 @@ function Header() {
                                 }
                               })}
                             </ul>
+                            <div
+                              className="flex justify-center cursor-pointer py-4"
+                              onClick={() => {
+                                setStoreSelectedEventId(event?.id);
+                                router.push("/dashboard/tables");
+                              }}
+                            >
+                              <p className="underline ">Check</p>
+                            </div>
                           </div>
                         );
                       })}
                     </ul>
-                    <div className="mt-12">
+                    {/* <div className="mt-12">
                       <Link
                         href="/dashboard/tables"
                         className="bg-gray-200 p-4 rounded"
                       >
                         Go to tables
                       </Link>
-                    </div>
+                    </div> */}
                   </div>
                 </SheetDescription>
               </SheetHeader>
