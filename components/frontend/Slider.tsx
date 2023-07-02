@@ -37,6 +37,7 @@ function Slider({ events, setActiveImageIndex }: SliderProps) {
                     alt="banner"
                     width={500}
                     height={300}
+                    priority
                   />
                 </div>
               </SwiperSlide>

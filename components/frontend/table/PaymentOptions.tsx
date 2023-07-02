@@ -22,7 +22,7 @@ function PaymentOptions() {
         <tbody className="text-sm">
           {options.map((option, index) => {
             return (
-              <>
+              <div key={index}>
                 <tr>
                   <td className="text-right pr-2 py-1 text-black">
                     {option.service}:
@@ -37,7 +37,7 @@ function PaymentOptions() {
                     {option.account_name}
                   </td>
                 </tr>
-              </>
+              </div>
             );
           })}
         </tbody>

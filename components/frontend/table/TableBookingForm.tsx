@@ -33,8 +33,11 @@ function TableBookingForm({ selectedTable, setOpen }: Props) {
   );
   const [useBalance, setUseBalance] = useState<boolean>(false);
   const [note, setNote] = useState<string>();
+  const [name, setName] = useState<string>();
+  const [phoneNumber, setPhoneNumber] = useState<string>();
   const [photo, setPhoto] = useState<File | undefined>();
   const [photoRequired, setPhotoRequired] = useState<string>("");
+  const [nameAndPhoneRequired, setNameAndPhoneRequired] = useState<string>("");
 
   const unauthenticated =
     status === "unauthenticated" || (user && !("user_type_id" in user));
@@ -66,23 +69,35 @@ function TableBookingForm({ selectedTable, setOpen }: Props) {
 
   const handleBook = () => {
     setPhotoRequired("");
+    setNameAndPhoneRequired("");
     if (!useBalance && !photo && !isSalePerson) {
       setPhotoRequired("You need to upload payment proof!");
       return;
     }
-    let data = {
+    if(isSalePerson && (!name || !phoneNumber)) {
+      setNameAndPhoneRequired("Name and phone number are required");
+      return;
+    }
+
+    let data: any = {
       event_table_id: selectedTable?.event_table_id,
       user_id: auth_user?.id,
       booking_status: useBalance || isSalePerson ? "confirmed" : "pending",
       note,
       use_balance: +useBalance,
     };
+
+    if (name && phoneNumber) {
+      data.name = name;
+      data.phone_number = phoneNumber;
+    }
+
     if (photo) {
       const formData = new FormData();
       formData.append("event_table_id", String(data.event_table_id));
       formData.append("user_id", String(data.user_id));
       formData.append("booking_status", data.booking_status);
-      formData.append("note", String(data.note));
+      formData.append("note", data.note ? data.note : "");
       formData.append("photo", photo as File);
       formData.append("use_balance", String(data.use_balance));
       bookTable.mutate(formData, {
@@ -118,7 +133,27 @@ function TableBookingForm({ selectedTable, setOpen }: Props) {
 
       <div>
         {isSalePerson ? (
-          <SalespersonMessage selectedTable={selectedTable} />
+          <div>
+            <SalespersonMessage selectedTable={selectedTable} />
+            <div>
+              <label>Name</label>
+              <input
+                id="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="input-box"
+              />
+            </div>
+            <div>
+              <label>Phone Number</label>
+              <input
+                id="phone_number"
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
+                className="input-box"
+              />
+            </div>
+          </div>
         ) : null}
         {!useBalance && !isSalePerson ? (
           <PaymentInfoMessage
@@ -168,6 +203,9 @@ function TableBookingForm({ selectedTable, setOpen }: Props) {
         <div className="flex justify-center">
           <span className="text-sm text-center text-red-500">
             {photoRequired}
+          </span>
+          <span className="text-sm text-center text-red-500">
+            {nameAndPhoneRequired}
           </span>
         </div>
 

@@ -17,9 +17,10 @@ const months = [
 ];
 
 const years = [
-  { id: "2021", name: "2021" },
   { id: "2022", name: "2022" },
   { id: "2023", name: "2023" },
+  { id: "2024", name: "2024" },
+  { id: "2025", name: "2025" },
 ];
 
 type TableHeaderProps = {
@@ -60,7 +61,6 @@ function TableHeader({
               value={eventId}
               onChange={(e) => setEventId(e.target.value)}
             >
-              <option value="">Select an event</option>
               <option value="all">All</option>
               {events?.map((event, index) => {
                 return (
@@ -78,7 +78,6 @@ function TableHeader({
               value={month}
               onChange={(e) => setMonth(e.target.value)}
             >
-              <option value="">Select a month</option>
               <option value="all">All</option>
               {months?.map((month, index) => {
                 return (
@@ -96,7 +95,6 @@ function TableHeader({
               value={year}
               onChange={(e) => setYear(e.target.value)}
             >
-              <option value="">Select a year</option>
               <option value="all">All</option>
               {years?.map((year, index) => {
                 return (
