@@ -47,9 +47,9 @@ function ConfirmedTableForm({ currentBooking, selectedTable, setOpen }: Props) {
             <tr>
               <td className="text-right pr-2 py-1 text-black">Booker name:</td>
               <td className="text-left pl-2 text-gray-600 ">
-                {currentBooking?.user?.name
-                  ? currentBooking?.user?.name
-                  : currentBooking?.name}
+                {currentBooking?.name
+                  ? currentBooking?.name
+                  : currentBooking?.user?.name}
               </td>
             </tr>
             <tr>
@@ -57,9 +57,9 @@ function ConfirmedTableForm({ currentBooking, selectedTable, setOpen }: Props) {
                 Booker Phone number:
               </td>
               <td className="text-left pl-2 text-gray-600 ">
-                {currentBooking?.user?.phone_number
-                  ? currentBooking?.user?.phone_number
-                  : currentBooking?.phone_number}
+                {currentBooking?.phone_number
+                  ? currentBooking?.phone_number
+                  : currentBooking?.user?.phone_number}
               </td>
             </tr>
             <tr>
