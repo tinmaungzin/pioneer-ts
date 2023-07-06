@@ -138,4 +138,6 @@ export type Booking = {
   booking_status?: string;
   price?: number;
   rowNumber?: number;
+  created_at?: string;
+  updated_at?: string;
 };

@@ -41,9 +41,9 @@ function EventInfo({ activeEvent }: Props) {
           <Dialog open={openLayoutDialog} onOpenChange={setOpenLayoutDialog}>
             <div className="flex justify-center my-2">
               <DialogTrigger data-testid="book-button">
-                <button className="inline-block rounded border-2 border-danger px-6 pb-[6px] pt-2 text-xs font-medium uppercase leading-normal text-danger transition duration-150 ease-in-out hover:border-danger-600 hover:bg-neutral-500 hover:bg-opacity-10 hover:text-danger-600 focus:border-danger-600 focus:text-danger-600 focus:outline-none focus:ring-0 active:border-danger-700 active:text-danger-700 bg-white">
+                <p className="inline-block rounded border-2 border-danger px-6 pb-[6px] pt-2 text-xs font-medium uppercase leading-normal text-danger transition duration-150 ease-in-out hover:border-danger-600 hover:bg-neutral-500 hover:bg-opacity-10 hover:text-danger-600 focus:border-danger-600 focus:text-danger-600 focus:outline-none focus:ring-0 active:border-danger-700 active:text-danger-700 bg-white">
                   View Table Layout
-                </button>
+                </p>
               </DialogTrigger>
             </div>
 

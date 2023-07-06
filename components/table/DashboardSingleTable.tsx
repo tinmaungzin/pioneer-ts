@@ -3,6 +3,7 @@ import { Dialog, DialogContent, DialogHeader } from "@/components/ui/dialog";
 import { useEffect, useState } from "react";
 import { useFetchByPost } from "@/hooks/useFetchByPost";
 import BookingHandleForm from "./forms/BookingHandleForm";
+import Loading from "../util/Loading";
 
 type Props = {
   table: Table;
@@ -61,11 +62,17 @@ function DashboardSingleTable({
                 {selectedTable?.booking_status}
               </span>{" "}
             </p>
-            <BookingHandleForm
-              selectedTable={selectedTable}
-              currentBooking={currentBooking}
-              setOpen={setOpenTableDialog}
-            />
+            {currentBooking ? (
+              <BookingHandleForm
+                selectedTable={selectedTable}
+                currentBooking={currentBooking}
+                setOpen={setOpenTableDialog}
+              />
+            ) : (
+              <div className="flex justify-center py-12">
+                <Loading height="h-16" width="w-16" />
+              </div>
+            )}
           </DialogHeader>
         </DialogContent>
       </Dialog>

@@ -1,10 +1,12 @@
 import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/components/ui/use-toast";
+import Invoice from "@/components/util/Invoice";
 import { SocketContext } from "@/context/socket";
 import { usePostModel } from "@/hooks/usePostModel";
 import { handleError, handleSuccess } from "@/utils/helpers/mutationHandlers";
 import { Booking, Table } from "@/utils/types";
-import { useContext, useState } from "react";
+import { useContext, useRef, useState } from "react";
+import ReactToPrint from "react-to-print";
 
 type Props = {
   currentBooking: Booking | undefined;
@@ -12,7 +14,10 @@ type Props = {
   setOpen: (value: boolean) => void;
 };
 function ConfirmedTableForm({ currentBooking, selectedTable, setOpen }: Props) {
+  console.log(currentBooking)
   const socket = useContext(SocketContext);
+  const invoiceRef = useRef<HTMLDivElement | null>(null);
+
   const [customerLeft, setCustomerLeft] = useState<boolean>(false);
   const { toast } = useToast();
   const updateBooking = usePostModel(
@@ -70,6 +75,18 @@ function ConfirmedTableForm({ currentBooking, selectedTable, setOpen }: Props) {
             </tr>
           </tbody>
         </table>
+        <ReactToPrint
+          trigger={() => (
+            <p className="text-center underline cursor-pointer text-sm">
+              Print invoice
+            </p>
+          )}
+          content={() => (invoiceRef?.current ? invoiceRef.current : null)}
+        />
+        <div className="hidden">
+          <Invoice ref={invoiceRef} currentBooking={currentBooking} />
+        </div>
+
         <div className="my-8 flex justify-center">
           <Switch
             checked={customerLeft}
