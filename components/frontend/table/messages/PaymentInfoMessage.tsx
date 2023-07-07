@@ -9,8 +9,8 @@ function PaymentInfoMessage({ selectedTable, setPhoto }: Props) {
     <>
       <div>
         <p className="text-sm text-center py-4">
-          Please transfer the amount of{" "}
-          <strong>{selectedTable?.price}MMK</strong> to one of the following
+          Please transfer the amount of{" "} at least{" "}
+          <strong>{selectedTable?.price ? Math.ceil(selectedTable?.price/2) : ""} MMK</strong> to one of the following
           payment options and upload the proof screenshot below!
         </p>
         <PaymentOptions />
