@@ -74,7 +74,7 @@ function TableBookingForm({ selectedTable, setOpen }: Props) {
       setPhotoRequired("You need to upload payment proof!");
       return;
     }
-    if(isSalePerson && (!name || !phoneNumber)) {
+    if (isSalePerson && (!name || !phoneNumber)) {
       setNameAndPhoneRequired("Name and phone number are required");
       return;
     }
@@ -128,7 +128,8 @@ function TableBookingForm({ selectedTable, setOpen }: Props) {
   return (
     <>
       <DialogTitle className="text-center">
-        Book {selectedTable?.name} table
+        <p className="py-1">Book {selectedTable?.name} table</p>
+        <p className="py-1">{selectedTable?.price} MMK</p>
       </DialogTitle>
 
       <div>

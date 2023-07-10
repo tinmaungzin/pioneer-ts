@@ -14,7 +14,7 @@ type Props = {
   setOpen: (value: boolean) => void;
 };
 function ConfirmedTableForm({ currentBooking, selectedTable, setOpen }: Props) {
-  console.log(currentBooking)
+  console.log(currentBooking);
   const socket = useContext(SocketContext);
   const invoiceRef = useRef<HTMLDivElement | null>(null);
 
@@ -57,6 +57,7 @@ function ConfirmedTableForm({ currentBooking, selectedTable, setOpen }: Props) {
                   : currentBooking?.user?.name}
               </td>
             </tr>
+
             <tr>
               <td className="text-right pr-2 py-1 text-black">
                 Booker Phone number:
@@ -67,6 +68,16 @@ function ConfirmedTableForm({ currentBooking, selectedTable, setOpen }: Props) {
                   : currentBooking?.user?.phone_number}
               </td>
             </tr>
+            {currentBooking?.user && currentBooking?.user.user_type_id === 2 ? (
+              <tr>
+                <td className="text-right pr-2 py-1 text-black">
+                  Salesperson:
+                </td>
+                <td className="text-left pl-2 text-gray-600 ">
+                  {currentBooking?.user?.name}
+                </td>
+              </tr>
+            ) : null}
             <tr>
               <td className="text-right pr-2 py-1 text-black">Note:</td>
               <td className="text-left pl-2 text-gray-600 ">

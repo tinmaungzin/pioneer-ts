@@ -39,8 +39,23 @@ const Invoice = forwardRef<HTMLDivElement, InvoiceProps>((props, ref) => {
             <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
               {currentBooking?.name
                 ? currentBooking?.name
-                : currentBooking?.user?.name}
+                : currentBooking?.user?.name}{" "}
+              (
+              {currentBooking?.phone_number
+                ? currentBooking?.phone_number
+                : currentBooking?.user?.phone_number}
+              )
             </h3>
+            {currentBooking?.user && currentBooking?.user.user_type_id === 2 ? (
+              <div>
+                <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
+                  Salesperson:
+                </h3>
+                <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-200">
+                  {currentBooking?.user.name}
+                </h3>
+              </div>
+            ) : null}
           </div>
 
           <div className="sm:text-right space-y-2">
