@@ -122,6 +122,7 @@ export type EventTable = {
   event_id: number;
   table: Table;
   table_id: number;
+  price?:number;
 };
 
 export type Booking = {

@@ -107,7 +107,7 @@ const Invoice = forwardRef<HTMLDivElement, InvoiceProps>((props, ref) => {
 
               <div>
                 <p className="sm:text-right text-gray-800 dark:text-gray-200">
-                  {currentBooking?.event_table.table.price} MMK
+                  {currentBooking?.event_table.price} MMK
                 </p>
               </div>
             </div>
@@ -122,7 +122,7 @@ const Invoice = forwardRef<HTMLDivElement, InvoiceProps>((props, ref) => {
                   Total:
                 </dt>
                 <dd className="col-span-2 text-gray-500">
-                  {currentBooking?.event_table.table.price} MMK
+                  {currentBooking?.event_table.price} MMK
                 </dd>
               </dl>
             </div>

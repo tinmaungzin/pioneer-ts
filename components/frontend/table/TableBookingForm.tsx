@@ -210,7 +210,7 @@ function TableBookingForm({ selectedTable, setOpen }: Props) {
           </span>
         </div>
 
-        <div className="flex flex-row justify-center mt-4">
+        <div className="flex flex-row justify-center mt-4 pb-16">
           <button
             onClick={handleBook}
             disabled={isButtonDisabled}

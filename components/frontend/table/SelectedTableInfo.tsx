@@ -107,7 +107,7 @@ function SelectedTableInfo({ selectedTable }: Props) {
                   Book Table
                 </button>
               </DialogTrigger>
-              <DialogContent className="bg-white ">
+              <DialogContent className="bg-white">
                 <DialogHeader>
                   <TableBookingForm
                     selectedTable={selectedTable}
@@ -115,6 +115,7 @@ function SelectedTableInfo({ selectedTable }: Props) {
                   />
                 </DialogHeader>
               </DialogContent>
+              
             </Dialog>
           )}
         </div>

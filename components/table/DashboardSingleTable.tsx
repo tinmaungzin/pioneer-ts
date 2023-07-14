@@ -62,7 +62,7 @@ function DashboardSingleTable({
                 {selectedTable?.booking_status}
               </span>{" "}
             </p>
-            {currentBooking ? (
+            {currentBooking || table?.booking_status === "available" ? (
               <BookingHandleForm
                 selectedTable={selectedTable}
                 currentBooking={currentBooking}

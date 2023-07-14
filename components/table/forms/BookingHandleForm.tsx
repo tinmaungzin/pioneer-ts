@@ -21,6 +21,8 @@ function BookingHandleForm({ currentBooking, selectedTable, setOpen }: Props) {
     currentBooking.event_table.booking_status === "confirmed" &&
     selectedTable?.booking_status === "confirmed";
 
+    console.log(currentBooking)
+
   return (
     <>
       {isAvailableTable ? (
