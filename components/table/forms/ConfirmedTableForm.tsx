@@ -14,7 +14,6 @@ type Props = {
   setOpen: (value: boolean) => void;
 };
 function ConfirmedTableForm({ currentBooking, selectedTable, setOpen }: Props) {
-  console.log(currentBooking);
   const socket = useContext(SocketContext);
   const invoiceRef = useRef<HTMLDivElement | null>(null);
 
