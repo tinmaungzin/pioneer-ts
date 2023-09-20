@@ -4,13 +4,14 @@ import { usePostModel } from "@/hooks/usePostModel";
 import { handleError, handleSuccess } from "@/utils/helpers/mutationHandlers";
 import { Booking, Table } from "@/utils/types";
 import Image from "next/image";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 
 type Props = {
   currentBooking: Booking | undefined;
   selectedTable: Table | undefined;
   setOpen: (value: boolean) => void;
 };
+
 function PendingTableForm({
   currentBooking,
   selectedTable,
@@ -19,6 +20,7 @@ function PendingTableForm({
   const socket = useContext(SocketContext);
   const originUrl = process.env.NEXT_PUBLIC_ORIGIN_URL;
   const { toast } = useToast();
+  const [adminNote, setAdminNote] = useState("")
   const updateBooking = usePostModel(
     "staff/bookings/" + currentBooking?.id,
     "available_events",
@@ -26,11 +28,14 @@ function PendingTableForm({
   );
 
   const handleConfirm = async () => {
+
     let data = {
       id: currentBooking?.id,
       event_table_id: currentBooking?.event_table_id,
       booking_status: "confirmed",
+      admin_note: adminNote
     };
+
     updateBooking.mutate(data, {
       onSuccess: (message) => {
         handleSuccess(message, setOpen, toast);
@@ -40,12 +45,15 @@ function PendingTableForm({
       },
       onError: (error) => handleError(error, toast),
     });
+
   };
+
   const handleReject = () => {
     let data = {
       id: currentBooking?.id,
       event_table_id: currentBooking?.event_table_id,
       booking_status: "available",
+      admin_note: adminNote
     };
     updateBooking.mutate(data, {
       onSuccess: (message) => {
@@ -89,6 +97,15 @@ function PendingTableForm({
             </tr>
           </tbody>
         </table>
+        <div>
+            <label>Note By Admin</label>
+            <textarea
+              id="note"
+              className="input-box"
+              onChange={(e) => setAdminNote(e.target.value)}
+            >{adminNote}</textarea>
+            
+          </div>
         <p className="text-center text-sm text-gray-600 py-2">Payment Proof</p>
         <Image
           className=" h-72 object-contain "

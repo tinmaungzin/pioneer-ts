@@ -109,13 +109,16 @@ function UserProfile() {
                       </div>
                     </DialogContent>
                   </Dialog>
-
-                <Link href="/new_password">
-                <p className="p-4 cursor-pointer rounded hover:bg-gray-100">
-                    Change Password
-                  </p>
-                </Link>
-                 
+                  <Link href="/">
+                    <p className="p-4 cursor-pointer rounded hover:bg-gray-100">
+                      Home
+                    </p>
+                  </Link>
+                  <Link href="/new_password">
+                    <p className="p-4 cursor-pointer rounded hover:bg-gray-100">
+                      Change Password
+                    </p>
+                  </Link>
                 </div>
               </div>
             </div>

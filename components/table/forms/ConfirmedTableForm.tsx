@@ -7,6 +7,7 @@ import { handleError, handleSuccess } from "@/utils/helpers/mutationHandlers";
 import { Booking, Table } from "@/utils/types";
 import { useContext, useRef, useState } from "react";
 import ReactToPrint from "react-to-print";
+import { format } from "date-fns";
 
 type Props = {
   currentBooking: Booking | undefined;
@@ -81,6 +82,21 @@ function ConfirmedTableForm({ currentBooking, selectedTable, setOpen }: Props) {
               <td className="text-right pr-2 py-1 text-black">Note:</td>
               <td className="text-left pl-2 text-gray-600 ">
                 {currentBooking?.note}
+              </td>
+            </tr>
+            <tr>
+              <td className="text-right pr-2 py-1 text-black">Booking Time:</td>
+              <td className="text-left pl-2 text-gray-600 ">
+                {
+                  currentBooking?.updated_at ? 
+                  format(new Date(currentBooking?.updated_at), "dd MMM yyyy 'at' h:mm a") : null
+                }
+              </td>
+            </tr>
+            <tr>
+              <td className="text-right pr-2 py-1 text-black">Note by Admin:</td>
+              <td className="text-left pl-2 text-gray-600 ">
+                {currentBooking?.admin_note}
               </td>
             </tr>
           </tbody>

@@ -15,6 +15,7 @@ function DashboardSingleTable({
   selectedTable,
   setSelectedTable,
 }: Props) {
+
   const fetchBookingMutation = useFetchByPost("staff/bookingByEventTableId");
 
   const [openTableDialog, setOpenTableDialog] = useState<boolean>(false);

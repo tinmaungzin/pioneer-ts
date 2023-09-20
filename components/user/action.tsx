@@ -70,7 +70,7 @@ function Actions({ user, name, title }: ActionProps) {
               </DropdownMenuItem>
             </div>
           ) : null}
-          {isUser ? (
+          {isUser || isSalesperson ? (
             <div>
               <DropdownMenuItem
                 className="cursor-pointer"
@@ -78,7 +78,7 @@ function Actions({ user, name, title }: ActionProps) {
               >
                 Add balance
               </DropdownMenuItem>
-              <Link href={`/dashboard/users/${user?.id}`}>
+              <Link href={ isUser ? `/dashboard/users/${user?.id}` : `/dashboard/salespersons/${user?.id}`}>
                 <DropdownMenuItem>View bookings</DropdownMenuItem>
               </Link>
             </div>
