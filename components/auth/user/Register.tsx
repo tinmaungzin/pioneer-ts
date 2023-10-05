@@ -86,7 +86,7 @@ function Register() {
                 className="input-box"
                 autoComplete="off"
                 defaultValue=""
-                placeholder="Ko Kyaw Kyaw"
+                placeholder="Name"
                 {...register("name")}
               />
               {errors.name && (

@@ -56,28 +56,27 @@ function SelectedTableInfo({ selectedTable }: Props) {
           <Dialog open={openPackageDialog} onOpenChange={setOpenPackageDialog}>
             <div className="flex justify-center pb-6">
               <DialogTrigger data-testid="book-button">
-                <p className="text-left pl-2 text-gray-600 underline text-sm">View packages</p>
+                <p className="text-left pl-2 text-gray-600 underline text-sm">
+                  View packages
+                </p>
               </DialogTrigger>
             </div>
 
-            <DialogContent className="bg-white w-[90%]">
+            <DialogContent className="bg-white w-full">
               <DialogTitle className="text-center">
                 Package includes:
               </DialogTitle>
               <DialogHeader>
                 <div>
-                  {selectedTable?.packages?.map((pakage, index) => {
-                    return (
-                      <Image
-                        key={index}
-                        alt="package photo"
-                        src={`${originUrl}/download_image/${pakage?.photo}`}
-                        width={500}
-                        height={300}
-                        className="w-full h-[50%] p-1"
-                      />
-                    );
-                  })}
+                  {selectedTable?.packages?.length ? (
+                    <Image
+                      alt="package photo"
+                      src={`${originUrl}/download_image/${selectedTable?.packages[0]?.photo}`}
+                      width={500}
+                      height={300}
+                      className="w-full p-1"
+                    />
+                  ) : null}
                 </div>
               </DialogHeader>
               <div className="flex justify-center">
@@ -115,7 +114,6 @@ function SelectedTableInfo({ selectedTable }: Props) {
                   />
                 </DialogHeader>
               </DialogContent>
-              
             </Dialog>
           )}
         </div>

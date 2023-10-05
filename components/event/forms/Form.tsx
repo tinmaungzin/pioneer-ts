@@ -78,7 +78,6 @@ function Form() {
       onError: (error) => handleError(error, toast),
     });
   };
-  console.log(createEvent.isLoading);
 
   return (
     <>

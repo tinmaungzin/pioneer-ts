@@ -1,25 +1,78 @@
+import Image from "next/image";
 import { Booking } from "@/utils/types";
 import { ColumnDef } from "@tanstack/react-table";
 import ReactToPrint from "react-to-print";
 import Invoice from "@/components/util/Invoice";
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 const Print: React.FC<{ row: any }> = ({ row }) => {
   const invoiceRef = useRef<HTMLDivElement | null>(null);
+  const originUrl = process.env.NEXT_PUBLIC_ORIGIN_URL;
+  const [openProofDialog, setOpenProofDialog] = useState<boolean>(false);
 
   return (
-    <div>
-      <ReactToPrint
-        trigger={() => (
-          <p className="text-center underline cursor-pointer text-sm">
-            Print invoice
-          </p>
-        )}
-        content={() => (invoiceRef?.current ? invoiceRef.current : null)}
-      />
-      <div className="hidden">
-        <Invoice ref={invoiceRef} currentBooking={row.original} />
+    <div className="flex gap-2 justify-center items-center">
+      <div>
+        <ReactToPrint
+          trigger={() => (
+            <p className="text-center underline cursor-pointer text-sm">
+              Print invoice
+            </p>
+          )}
+          content={() => (invoiceRef?.current ? invoiceRef.current : null)}
+        />
+        <div className="hidden">
+          <Invoice ref={invoiceRef} currentBooking={row.original} />
+        </div>
       </div>
+
+      <Dialog open={openProofDialog} onOpenChange={setOpenProofDialog}>
+        <div className="flex justify-center">
+          <DialogTrigger data-testid="book-button">
+            <p className="text-left pl-2 text-gray-600 underline text-sm">
+              Payment Proof
+            </p>
+          </DialogTrigger>
+        </div>
+
+        <DialogContent className="bg-white w-full">
+          <DialogTitle className="text-center">
+            Payment Proof  
+          </DialogTitle>
+          <DialogHeader>
+            {row?.original?.photo ? (
+              <div>
+                <Image
+                  alt="Payment Proof"
+                  src={`${originUrl}/download_image/${row?.original?.photo}`}
+                  width={500}
+                  height={300}
+                  className="w-full p-1"
+                />
+              </div>
+            ) : (
+              <p className="text-center py-6">No Payment Proof for this booking</p>
+            )}
+          </DialogHeader>
+          <div className="flex justify-center">
+            <button
+              onClick={() => setOpenProofDialog(false)}
+              className="mx-2 py-1 px-4 text-center text-black bg-transparent border border-black rounded-md hover:bg-black hover:text-white transition font-medium "
+            >
+              Cancel
+            </button>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* <p>Payment Proof</p> */}
     </div>
   );
 };
@@ -51,7 +104,6 @@ export const columns: ColumnDef<Booking>[] = [
   },
   {
     header: "Action",
-    cell: Print
-   
+    cell: Print,
   },
 ];

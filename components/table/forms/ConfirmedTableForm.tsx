@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Switch } from "@/components/ui/switch";
 import { useToast } from "@/components/ui/use-toast";
 import Invoice from "@/components/util/Invoice";
@@ -17,6 +18,8 @@ type Props = {
 function ConfirmedTableForm({ currentBooking, selectedTable, setOpen }: Props) {
   const socket = useContext(SocketContext);
   const invoiceRef = useRef<HTMLDivElement | null>(null);
+  const originUrl = process.env.NEXT_PUBLIC_ORIGIN_URL;
+
 
   const [customerLeft, setCustomerLeft] = useState<boolean>(false);
   const { toast } = useToast();
@@ -101,6 +104,14 @@ function ConfirmedTableForm({ currentBooking, selectedTable, setOpen }: Props) {
             </tr>
           </tbody>
         </table>
+        <p className="text-center text-sm text-gray-600 py-2">Payment Proof</p>
+        <Image
+          className=" h-72 object-contain mb-4"
+          src={`${originUrl}/download_image/${currentBooking?.photo}`}
+          alt="payment proof"
+          width={500}
+          height={300}
+        />
         <ReactToPrint
           trigger={() => (
             <p className="text-center underline cursor-pointer text-sm">

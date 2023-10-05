@@ -28,7 +28,6 @@ export default function Home() {
 
   useEffect(() => {
     socket.on("event-receive", async (data: any) => {
-      console.log('receive')
       queryClient.invalidateQueries(["available_events"]);
     });
   }, [queryClient, socket]);
