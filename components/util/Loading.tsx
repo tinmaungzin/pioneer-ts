@@ -7,7 +7,7 @@ type LoadingProps = {
 };
 
 const Loading: React.FC<LoadingProps> = ({
-  stroke = "stroke-black",
+  stroke = "stroke-blue-500",
   width = "w-6",
   height = "h-6",
 }) => {

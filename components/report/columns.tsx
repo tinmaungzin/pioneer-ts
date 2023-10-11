@@ -3,6 +3,7 @@ import { Booking } from "@/utils/types";
 import { ColumnDef } from "@tanstack/react-table";
 import ReactToPrint from "react-to-print";
 import Invoice from "@/components/util/Invoice";
+import PaymentProof from "@/components/util/PaymentProof";
 import { useRef, useState } from "react";
 import {
   Dialog,
@@ -14,6 +15,7 @@ import {
 
 const Print: React.FC<{ row: any }> = ({ row }) => {
   const invoiceRef = useRef<HTMLDivElement | null>(null);
+  const paymentRef = useRef<HTMLDivElement | null>(null);
   const originUrl = process.env.NEXT_PUBLIC_ORIGIN_URL;
   const [openProofDialog, setOpenProofDialog] = useState<boolean>(false);
 
@@ -32,8 +34,21 @@ const Print: React.FC<{ row: any }> = ({ row }) => {
           <Invoice ref={invoiceRef} currentBooking={row.original} />
         </div>
       </div>
+      <div>
+        <ReactToPrint
+          trigger={() => (
+            <p className="text-center underline cursor-pointer text-sm">
+              Print Payment Proof
+            </p>
+          )}
+          content={() => (paymentRef?.current ? paymentRef.current : null)}
+        />
+        <div className="hidden">
+          <PaymentProof ref={paymentRef} currentBooking={row.original} />
+        </div>
+      </div>
 
-      <Dialog open={openProofDialog} onOpenChange={setOpenProofDialog}>
+      {/* <Dialog open={openProofDialog} onOpenChange={setOpenProofDialog}>
         <div className="flex justify-center">
           <DialogTrigger data-testid="book-button">
             <p className="text-left pl-2 text-gray-600 underline text-sm">
@@ -70,7 +85,7 @@ const Print: React.FC<{ row: any }> = ({ row }) => {
             </button>
           </div>
         </DialogContent>
-      </Dialog>
+      </Dialog> */}
 
       {/* <p>Payment Proof</p> */}
     </div>
