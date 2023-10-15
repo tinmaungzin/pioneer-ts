@@ -15,6 +15,12 @@ const nextConfig = {
         port: "",
         pathname: "/download_image/**",
       },
+      {
+        protocol: "http",
+        hostname: "178.128.60.220",
+        port: "",
+        pathname: "/download_image/**",
+      },
     ],
   },
 };
